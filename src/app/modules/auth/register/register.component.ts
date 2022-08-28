@@ -27,6 +27,7 @@ export class RegisterComponent implements OnInit {
   initRegisterForm(): FormGroup {
     return new FormGroup({
       username: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
       confirmPassword: new FormControl('', [Validators.required])
     }, {
@@ -35,13 +36,13 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const { username, password } = this.registerForm.value;
-    if (this.authService.register(username, password)) {
+    const { username, password, email } = this.registerForm.value;
+    if (this.authService.register(username, password, email)) {
       this.registerForm.reset();
       this.message.text = 'Registration successful';
       this.message.type = 'success';
     } else {
-      this.message.text = 'Username is already taken';
+      this.message.text = 'Username or email is already taken';
       this.message.type = 'danger';
     }
   }

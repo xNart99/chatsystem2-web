@@ -12,13 +12,18 @@ export class AuthService {
 
   }
 
-  register(username: string, password: string): boolean {
+  register(username: string, password: string, email: string): boolean {
     const isUsernameTaken = this.storage.get('users')?.find((user: User) => user.username === username);
+    const isEmailTaken = this.storage.get('users')?.find((user: User) => user.email === email);
     const user = {
       username,
-      password
+      password,
+      email
     };
     if (isUsernameTaken) {
+      return false;
+    }
+    if (isEmailTaken) {
       return false;
     }
     if (!this.storage.get('users')) {
