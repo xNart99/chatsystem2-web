@@ -6,6 +6,7 @@ import { HomeComponent } from './home.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { ConversationInfoComponent } from './conversation-info/conversation-info.component';
+import { GroupBarComponent } from './side-bar/group-bar/group-bar.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { ConversationInfoComponent } from './conversation-info/conversation-info
     HomeComponent,
     SideBarComponent,
     ConversationComponent,
-    ConversationInfoComponent
+    ConversationInfoComponent,
+    GroupBarComponent,
   ],
   imports: [
     CommonModule,
