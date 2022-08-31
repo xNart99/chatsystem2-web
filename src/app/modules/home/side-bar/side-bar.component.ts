@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { CreateGroupComponent } from './create-group/create-group.component';
 
 @Component({
   selector: 'app-side-bar',
@@ -10,7 +12,8 @@ import { AuthService } from 'src/app/services/auth.service';
 export class SideBarComponent implements OnInit {
   user!: User;
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -19,6 +22,12 @@ export class SideBarComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  openCreateGroupModal(): void {
+    this.modalService.open(CreateGroupComponent, {
+      centered: true
+    })
   }
 
 }

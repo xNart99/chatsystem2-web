@@ -1,3 +1,12 @@
 .group-bar {
   height: 50px;
+  .group-info {
+    .group-profile-pic {
+      width: 40px;
+      height: 40px;
+      img {
+        border-radius: 50%;
+      }
+    }
+  }
 }

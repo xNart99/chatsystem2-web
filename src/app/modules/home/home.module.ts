@@ -7,6 +7,8 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { ConversationComponent } from './conversation/conversation.component';
 import { ConversationInfoComponent } from './conversation-info/conversation-info.component';
 import { GroupBarComponent } from './side-bar/group-bar/group-bar.component';
+import { ChatToolbarComponent } from './side-bar/chat-toolbar/chat-toolbar.component';
+import { CreateGroupComponent } from './side-bar/create-group/create-group.component';
 
 
 @NgModule({
@@ -16,6 +18,8 @@ import { GroupBarComponent } from './side-bar/group-bar/group-bar.component';
     ConversationComponent,
     ConversationInfoComponent,
     GroupBarComponent,
+    ChatToolbarComponent,
+    CreateGroupComponent,
   ],
   imports: [
     CommonModule,
