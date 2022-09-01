@@ -4,8 +4,9 @@ import { User } from "./user.model";
 export interface Group {
   id: string;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: number;
+  updatedAt: number;
   members: User[];
   channels: Channel[];
+  read: string[];
 }

@@ -26,11 +26,8 @@
       </div>
     </div>
   </div>
+  <app-chat-toolbar (createGroup)="openCreateGroupModal()"></app-chat-toolbar>
   <div class="conversations">
-    <app-chat-toolbar (createGroup)="openCreateGroupModal()"></app-chat-toolbar>
-    <app-group-bar></app-group-bar>
-    <app-group-bar></app-group-bar>
-    <app-group-bar></app-group-bar>
-    <app-group-bar></app-group-bar>
+    <app-group-bar *ngFor="let group of groups" [group]="group" (click)="selectedGroup = group" [isSelected]="selectedGroup == group"></app-group-bar>
   </div>
 </div>
