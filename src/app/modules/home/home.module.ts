@@ -9,6 +9,7 @@ import { ConversationInfoComponent } from './conversation-info/conversation-info
 import { GroupBarComponent } from './side-bar/group-bar/group-bar.component';
 import { ChatToolbarComponent } from './side-bar/chat-toolbar/chat-toolbar.component';
 import { CreateGroupComponent } from './side-bar/create-group/create-group.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { CreateGroupComponent } from './side-bar/create-group/create-group.compo
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    ComponentsModule
   ]
 })
 export class HomeModule { }

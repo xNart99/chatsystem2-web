@@ -1,0 +1,18 @@
+<div class="member-bar w-100 mb-1" type="button">
+  <div
+    class="member-bar member-bar-hover d-flex justify-content-between rounded-3 {{ isSelected ? 'bg-light member-bar-wrapper' : '' }}">
+    <div class="member-info d-flex align-items-center">
+      <div class="member-profile-pic d-flex align-items-center">
+        <span class="material-symbols-outlined" *ngIf="!member.profileImage; else profilePic">
+          account_circle
+        </span>
+        <ng-template #profilePic>
+          <img [src]="member.profileImage" alt="profile-pic" class="profile-pic">
+        </ng-template>
+      </div>
+      <div class="member-name ms-2 text-dark">
+        {{ member.username }}
+      </div>
+    </div>
+  </div>
+</div>

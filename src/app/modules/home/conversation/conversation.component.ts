@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Channel } from 'src/app/models/channel.model';
+import { User } from 'src/app/models/user.model';
 
 @Component({
   selector: 'app-conversation',
@@ -6,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./conversation.component.scss']
 })
 export class ConversationComponent implements OnInit {
+  @Input() channel!: Channel;
 
   constructor() { }
 
