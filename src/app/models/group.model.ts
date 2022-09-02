@@ -6,7 +6,7 @@ export interface Group {
   name: string;
   createdAt: number;
   updatedAt: number;
-  members: User[];
+  members: string[];
   channels: Channel[];
   read: string[];
 }

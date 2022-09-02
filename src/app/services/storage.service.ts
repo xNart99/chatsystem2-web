@@ -8,7 +8,6 @@ export class StorageService {
   }
 
   get(key: string): any {
-    console.log(JSON.parse(localStorage.getItem(key) || 'null'));
     return JSON.parse(localStorage.getItem(key) || 'null');
   }
 

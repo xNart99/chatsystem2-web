@@ -1,26 +1,33 @@
 <div class="w-100 h-100 p-4">
-  <div class="group-channel-info fs-5 mb-3 text-secondary">
-    {{ group ? 'Group' : 'Channel' }} Information
-  </div> 
-  <div class="group-infor d-flex flex-column align-items-center">
-    <div class="group-image d-flex align-items-center justify-content-center">
-      <span class="material-symbols-rounded" *ngIf="group; else channelIcon">
-        groups
-      </span>
-      <ng-template #channelIcon>
-        <span class="material-symbols-rounded">
-          chat
+  <ng-container *ngIf="conversation">
+    <div class="group-channel-info fs-5 mb-3 text-secondary">
+      {{ conversation.members ? 'Group' : 'Channel' }} Information
+    </div> 
+    <div class="group-infor d-flex flex-column align-items-center">
+      <div class="group-image d-flex align-items-center justify-content-center" *ngIf="conversation">
+        <span class="material-symbols-rounded" *ngIf="conversation.members; else channelIcon">
+          groups
         </span>
-      </ng-template>
+        <ng-template #channelIcon>
+          <span class="material-symbols-rounded">
+            chat
+          </span>
+        </ng-template>
+      </div>
+      <p class="fs-6 text-center my-3">
+        {{ conversation.name || 'Test' }}
+      </p>
     </div>
-    <p class="fs-6 text-center my-3">
-      {{ (group ? group?.name : channel?.name) || 'Test' }}
-    </p>
-  </div>
-  <div class="group-members text-secondary fs-5 mb-1">
-    {{ group ? 'Members' : 'Participants' }}
-  </div>
-  <div class="member-list d-flex flex-column">
-    <app-member-item [member]="member"></app-member-item>
-  </div>
+    <div class="group-members text-secondary fs-5 mb-1">
+      {{ conversation.members ? 'Members' : 'Participants' }}
+    </div>
+    <div class="member-list d-flex flex-column">
+      <ng-container *ngIf="conversation && conversation.members">
+        <app-member-item [memberId]="member" *ngFor="let member of conversation.members"></app-member-item>
+      </ng-container>
+      <ng-container *ngIf="conversation && conversation.accessingUsers">
+        <app-member-item [memberId]="member" *ngFor="let member of conversation.accessingUsers"></app-member-item>
+      </ng-container>
+    </div>
+  </ng-container>
 </div>

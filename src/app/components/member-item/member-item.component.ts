@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-member-item',
@@ -7,11 +8,15 @@ import { User } from 'src/app/models/user.model';
   styleUrls: ['./member-item.component.scss']
 })
 export class MemberItemComponent implements OnInit {
-  @Input() member!: User;
+  @Input() memberId!: string;
+  member!: User;
   isSelected = false;
-  constructor() { }
+  constructor(
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    this.member = this.authService.getUserByUsername(this.memberId);
   }
 
 }

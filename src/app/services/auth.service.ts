@@ -7,7 +7,7 @@ import { StorageService } from "./storage.service";
 })
 export class AuthService {
   constructor(
-    private storage: StorageService
+    private storage: StorageService,
   ) {
 
   }
@@ -53,6 +53,14 @@ export class AuthService {
 
   getUser(): User {
     return this.storage.get('user') || null;
+  }
+
+  getUserByUsername(username: string): User {
+    const user = this.storage.get('users').find((user: User) => user.username === username) || null; 
+    if (user) {
+      delete user.password;
+    }
+    return user;
   }
 
   logout(): void {

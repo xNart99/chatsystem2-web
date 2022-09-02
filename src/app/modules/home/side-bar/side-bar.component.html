@@ -18,7 +18,7 @@
         </button>
       </div>
       <div class="user-logout-btn h-100">
-        <button class="d-flex align-items-center btn btn-danger w-100 h-100 rounded-0">
+        <button class="d-flex align-items-center btn btn-danger w-100 h-100 rounded-0" (click)="logout()">
           <span class="material-symbols-rounded">
             logout
           </span>
@@ -28,6 +28,6 @@
   </div>
   <app-chat-toolbar (createGroup)="openCreateGroupModal()"></app-chat-toolbar>
   <div class="conversations">
-    <app-group-bar *ngFor="let group of groups" [group]="group" (click)="selectedGroup = group" [isSelected]="selectedGroup == group"></app-group-bar>
+    <app-group-bar *ngFor="let group of groups" [group]="group" (click)="selectGroup(group)" [isSelected]="selectedGroup == group"></app-group-bar>
   </div>
 </div>

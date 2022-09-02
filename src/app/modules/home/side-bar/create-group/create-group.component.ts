@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Group } from 'src/app/models/group.model';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { GroupService } from 'src/app/services/group.service';
 
 @Component({
@@ -9,13 +11,16 @@ import { GroupService } from 'src/app/services/group.service';
   styleUrls: ['./create-group.component.scss']
 })
 export class CreateGroupComponent implements OnInit {
+  currentUser!: User;
   message = '';
   constructor(
     public activeModal: NgbActiveModal,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.currentUser = this.authService.getUser();
   }
 
   createNewGroup(groupName: string): void {
@@ -24,7 +29,9 @@ export class CreateGroupComponent implements OnInit {
       name: groupName,
       createdAt: new Date().getTime(),
       updatedAt: new Date().getTime(),
-      members: [],
+      members: [
+        this.currentUser.username
+      ],
       channels: [],
       read: []
     }

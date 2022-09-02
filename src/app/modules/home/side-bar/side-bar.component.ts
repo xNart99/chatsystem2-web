@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
@@ -12,13 +13,15 @@ import { CreateGroupComponent } from './create-group/create-group.component';
   styleUrls: ['./side-bar.component.scss']
 })
 export class SideBarComponent implements OnInit {
+  @Output() onGroupSelected = new EventEmitter<Group>();
   user!: User;
   groups: Group[] = [];
   selectedGroup!: Group;
   constructor(
     private authService: AuthService,
     private modalService: NgbModal,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +33,7 @@ export class SideBarComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+    this.router.navigate(['/auth']);
   }
 
   openCreateGroupModal(): void {
@@ -38,4 +42,8 @@ export class SideBarComponent implements OnInit {
     })
   }
 
+  selectGroup(group: Group): void {
+    this.selectedGroup = group;
+    this.onGroupSelected.emit(group);
+  }
 }
