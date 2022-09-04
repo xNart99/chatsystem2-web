@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ConversationComponent } from './conversation/conversation.component';
 import { HomeComponent } from './home.component';
+import { MembersManagerComponent } from './members-manager/members-manager.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,14 @@ const routes: Routes = [
       {
         path: '',
         component: ConversationComponent
+      },
+      {
+        path: 'conversation/:id',
+        component: ConversationComponent
+      },
+      {
+        path: 'members-manager',
+        component: MembersManagerComponent
       }
     ]
   }

@@ -18,8 +18,16 @@
         {{ conversation.name || 'Test' }}
       </p>
     </div>
-    <div class="group-members text-secondary fs-5 mb-1">
-      {{ conversation.members ? 'Members' : 'Participants' }}
+    <div class="group-members d-flex justify-content-between align-items-center mb-2">
+      <div class="text-secondary fs-5 mb-1">
+        {{ conversation.members ? 'Members' : 'Participants' }}
+      </div>
+      <button *ngIf="havePermission" class="btn btn-primary add-btn ms-1 d-flex align-items-center justify-content-center"
+        (click)="openCreateAddUser()">
+        <span class="material-symbols-rounded">
+          add
+        </span>
+      </button>
     </div>
     <div class="member-list d-flex flex-column">
       <ng-container *ngIf="conversation && conversation.members">

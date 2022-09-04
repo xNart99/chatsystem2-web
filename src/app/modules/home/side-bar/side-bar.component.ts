@@ -46,4 +46,8 @@ export class SideBarComponent implements OnInit {
     this.selectedGroup = group;
     this.onGroupSelected.emit(group);
   }
+
+  checkPermisstion(): boolean {
+    return ['superadmin', 'groupadmin'].includes(this.user.role);
+  }
 }

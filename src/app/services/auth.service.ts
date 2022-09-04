@@ -9,7 +9,6 @@ export class AuthService {
   constructor(
     private storage: StorageService,
   ) {
-
   }
 
   register(username: string, password: string, email: string): boolean {
@@ -65,5 +64,9 @@ export class AuthService {
 
   logout(): void {
     this.storage.remove('user');
+  }
+
+  getAllUsers(): User[] {
+    return this.storage.get('users');
   }
 }

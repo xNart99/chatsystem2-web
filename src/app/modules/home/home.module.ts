@@ -10,6 +10,8 @@ import { GroupBarComponent } from './side-bar/group-bar/group-bar.component';
 import { ChatToolbarComponent } from './side-bar/chat-toolbar/chat-toolbar.component';
 import { CreateGroupComponent } from './side-bar/create-group/create-group.component';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { MembersManagerComponent } from './members-manager/members-manager.component';
+import { MembersManagerInfoComponent } from './members-manager-info/members-manager-info.component';
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     GroupBarComponent,
     ChatToolbarComponent,
     CreateGroupComponent,
+    MembersManagerComponent,
+    MembersManagerInfoComponent,
   ],
   imports: [
     CommonModule,

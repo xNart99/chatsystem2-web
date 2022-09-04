@@ -4,19 +4,24 @@
       <div class="user-profile-pic h-100 d-flex align-items-center ms-2 me-2">
         <img [src]="user.profileImage || '../../../../assets/default-profile-icon-24.jpeg'" [alt]="user.username">
       </div>
-      <div class="username me-2 text-white">{{ user.username }}</div>
-      <div class="user-role d-flex align-items-center">
-        <span class="badge text-white {{ user.role === 'super' ? 'bg-warning' : (user.role === 'groupadmin' ? 'bg-primary' : user.role === 'groupassis' ? 'bg-info' : 'bg-dark') }}">{{ user.role || 'n/a'}}</span>
+      <div class="w-100 h-100">
+        <div class="username me-2 text-white">{{ user.username }}</div>
+        <div class="user-role d-flex align-items-center">
+          <span
+            class="badge text-white {{ user.role === 'super' ? 'bg-warning' : (user.role === 'groupadmin' ? 'bg-primary' : user.role === 'groupassis' ? 'bg-info' : 'bg-dark') }}">{{
+            user.role || 'n/a'}}</span>
+        </div>
       </div>
     </div>
     <div class="user-btns d-flex">
-      <div class="user-edit-btn h-100">
+      <!-- for phase 2 -->
+      <!-- <div class="user-edit-btn h-100">
         <button class="btn btn-primary w-100 h-100 rounded-0">
           <span class="material-symbols-rounded">
             edit_square
           </span>
         </button>
-      </div>
+      </div> -->
       <div class="user-logout-btn h-100">
         <button class="d-flex align-items-center btn btn-danger w-100 h-100 rounded-0" (click)="logout()">
           <span class="material-symbols-rounded">
@@ -26,8 +31,20 @@
       </div>
     </div>
   </div>
-  <app-chat-toolbar (createGroup)="openCreateGroupModal()"></app-chat-toolbar>
-  <div class="conversations">
+  <app-chat-toolbar [havePermission]="checkPermisstion()" (createGroup)="openCreateGroupModal()"></app-chat-toolbar>
+  <div class="conversations flex-grow-1">
     <app-group-bar *ngFor="let group of groups" [group]="group" (click)="selectGroup(group)" [isSelected]="selectedGroup == group"></app-group-bar>
+  </div>
+  <div class="members-manager-section">
+    <div class="members-manager-btn">
+      <button class="btn btn-primary w-100 h-100 rounded-0 d-flex align-items-center justify-content-center p-2" [routerLink]="['/home', 'members-manager']">
+        <span class="material-symbols-rounded me-2">
+          people
+        </span>
+        <span>
+          Members Manager
+        </span>
+      </button>
+    </div>
   </div>
 </div>

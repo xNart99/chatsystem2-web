@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-chat-toolbar',
@@ -7,6 +7,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class ChatToolbarComponent implements OnInit {
   @Output() createGroup = new EventEmitter<void>();
+  @Input() havePermission = false;
 
   constructor() { }
 

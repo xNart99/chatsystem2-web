@@ -3,8 +3,8 @@
     <div class="col-3">
       <app-side-bar (onGroupSelected)="conversationInfo.conversation = $event"></app-side-bar>
     </div>
-    <div class="col-6">
-      <app-conversation></app-conversation>
+    <div class="col-6 border-start border-end">
+      <router-outlet></router-outlet>
     </div>
     <div class="col-3">
       <app-conversation-info #conversationInfo></app-conversation-info>

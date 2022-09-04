@@ -14,5 +14,9 @@
         {{ member.username }}
       </div>
     </div>
+    <div class="member-role align-items-center d-flex mx-3">
+      <span
+        class="badge {{ member.role === 'super' ? 'bg-warning' : (member.role === 'groupadmin' ? 'bg-primary' : member.role === 'groupassis' ? 'bg-info' : 'bg-dark') }}">{{ member.role || 'n/a'}}</span>
+    </div>
   </div>
 </div>
