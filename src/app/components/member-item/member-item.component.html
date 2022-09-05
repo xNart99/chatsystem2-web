@@ -18,22 +18,54 @@
 
       <div class="member-role align-items-center d-flex mx-3">
         <span
-        class="badge {{ member.role === 'super' ? 'bg-warning' : (member.role === 'groupadmin' ? 'bg-primary' : member.role === 'groupassis' ? 'bg-info' : 'bg-dark') }}">{{ member.role || 'n/a'}}</span>
+          class="badge {{ member.role === 'super' ? 'bg-warning' : (member.role === 'groupadmin' ? 'bg-primary' : member.role === 'groupassis' ? 'bg-info' : 'bg-dark') }}">{{
+          member.role || 'n/a'}}</span>
       </div>
       <div class="member-btn-action align-items-center d-flex me-2" *ngIf="addingStatus != null">
-        <button (click)="onButtonClickHandler()" class="btn d-flex align-items-center justify-content-center {{ addingStatus ? 'btn-danger' : 'btn-success' }}">
+        <button (click)="onButtonClickHandler()"
+          class="btn d-flex align-items-center justify-content-center {{ addingStatus ? 'btn-danger' : 'btn-success' }}">
           <span class="material-symbols-outlined">
             {{ addingStatus ? 'remove' : 'add' }}
           </span>
         </button>
       </div>
-      <div class="member-btn-action align-items-center d-flex me-2" *ngIf="mode != null && !isYour && havePermission">
-      <button (click)="onUserDeleteHandler()"
-        class="btn d-flex align-items-center justify-content-center btn-danger">
-        <span class="material-symbols-outlined">
-          remove
-        </span>
-      </button>
+      <div class="member-btn-action align-items-center d-flex me-2" *ngIf="mode != null && !isYour">
+        <button *ngIf="havePermission" (click)="onUserDeleteHandler()" class="btn d-flex align-items-center justify-content-center btn-outline-danger">
+          <span class="material-symbols-outlined">
+            delete
+          </span>
+        </button>
+        <button *ngIf="!(user.role === 'groupadmin' && member.role === 'super')" class="btn d-flex align-items-center justify-content-center btn-outline-primary ms-2" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="material-symbols-outlined">
+            edit
+          </span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a (click)="changeMemberRole('groupassis')" class="dropdown-item d-flex align-items-center">
+            <span class="material-symbols-rounded me-2">
+              assistant
+            </span>
+             Group Assistant
+          </a></li>
+          <li><a (click)="changeMemberRole('groupadmin')" class="dropdown-item d-flex align-items-center" >
+            <span class="material-symbols-rounded me-2">
+              admin_panel_settings
+            </span>
+            Group Admin
+          </a></li>
+          <li *ngIf="user.role === 'super'"><a (click)="changeMemberRole('super')" class="dropdown-item d-flex align-items-center">
+            <span class="material-symbols-rounded me-2">
+              star
+            </span>
+            Super Admin
+          </a></li>
+          <li><a (click)="changeMemberRole('member')" class="dropdown-item d-flex align-items-center">
+              <span class="material-symbols-rounded me-2">
+                person
+              </span>
+              Member
+            </a></li>
+        </ul>
       </div>
     </div>
   </div>

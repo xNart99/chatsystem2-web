@@ -16,10 +16,13 @@ export class MemberItemComponent implements OnInit {
   @Output() onButtonClick = new EventEmitter<boolean>();
   @Output() onUserDelete = new EventEmitter<string>();
   member!: User;
+  user!: User;
   isSelected = false;
   constructor(
     private authService: AuthService
-  ) { }
+  ) {
+    this.user = this.authService.getUser();
+  }
 
   ngOnInit(): void {
     this.member = this.authService.getUserByUsername(this.memberId);
@@ -32,5 +35,13 @@ export class MemberItemComponent implements OnInit {
 
   onUserDeleteHandler(): void {
     this.onUserDelete.emit(this.memberId);
+  }
+
+  changeMemberRole(role: 'super' | 'groupadmin' | 'groupassis' | 'member') {
+    if (
+      this.authService.updateUser(this.member)
+      ) {
+        this.member.role = role;
+    }
   }
 }

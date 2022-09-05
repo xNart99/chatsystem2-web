@@ -83,4 +83,17 @@ export class AuthService {
     }
     return users;
   }
+
+  updateUser(user: User): boolean {
+    const users = this.storage.get('users') || [];
+    const m = users.find((u: User) => u.username === user.username);
+    m.role = user.role;
+    try {
+      this.storage.set('users', users);
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  }
 }

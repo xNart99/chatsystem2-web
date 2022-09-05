@@ -4,5 +4,5 @@ export interface User {
   email: string;
   password?: string;
   profileImage?: string;
-  role: 'super' | 'groupadmin' | 'groupassis' | 'user';
+  role: 'super' | 'groupadmin' | 'groupassis' | 'member';
 }
