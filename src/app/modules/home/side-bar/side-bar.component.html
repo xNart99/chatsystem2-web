@@ -35,7 +35,7 @@
   <div class="conversations flex-grow-1">
     <app-group-bar *ngFor="let group of groups" [group]="group" (click)="selectGroup(group)" [isSelected]="selectedGroup == group"></app-group-bar>
   </div>
-  <div class="members-manager-section">
+  <div class="members-manager-section" *ngIf="checkPermisstion()">
     <div class="members-manager-btn">
       <button class="btn btn-primary w-100 h-100 rounded-0 d-flex align-items-center justify-content-center p-2" [routerLink]="['/home', 'members-manager']">
         <span class="material-symbols-rounded me-2">

@@ -9,6 +9,24 @@ import { PasswordMatch } from 'src/app/validators/password-match.validator';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  roles = [
+    {
+      name: 'Member',
+      value: 'member'
+    },
+    {
+      name: 'Super Admin',
+      value: 'superadmin'
+    },
+    {
+      name: 'Group Admin',
+      value: 'groupadmin'
+    },
+    {
+      name: 'Group Assistance',
+      value: 'groupassis'
+    }
+  ];
   registerForm!: FormGroup;
   message = {
     type: '',
@@ -28,6 +46,7 @@ export class RegisterComponent implements OnInit {
     return new FormGroup({
       username: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
+      role: new FormControl('member', Validators.required),
       password: new FormControl('', [Validators.required]),
       confirmPassword: new FormControl('', [Validators.required])
     }, {
@@ -36,9 +55,10 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const { username, password, email } = this.registerForm.value;
-    if (this.authService.register(username, password, email)) {
+    const { username, password, email, role } = this.registerForm.value;
+    if (this.authService.register(username, password, email, role)) {
       this.registerForm.reset();
+      this.registerForm.controls['role'].setValue('member');
       this.message.text = 'Registration successful';
       this.message.type = 'success';
     } else {
