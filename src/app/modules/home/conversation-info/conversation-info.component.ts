@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddMemberComponent } from 'src/app/components/add-member/add-member.component';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { GroupService } from 'src/app/services/group.service';
 
 @Component({
   selector: 'app-conversation-info',
@@ -18,6 +19,7 @@ export class ConversationInfoComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private modalService: NgbModal,
+    private groupService: GroupService
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +42,9 @@ export class ConversationInfoComponent implements OnInit {
     if (this.conversation.members) {
       modal.componentInstance.group = this.conversation;
       modal.componentInstance.existingMembers = this.conversation.members;
+      modal.componentInstance.afterButtonClicked.subscribe(() => {
+        this.conversation = this.groupService.getGroupById(this.conversation.id);
+      });
     } else {
       modal.componentInstance.channel = this.conversation;
       modal.componentInstance.existingMembers = this.conversation.accessingUsers;

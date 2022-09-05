@@ -1,0 +1,14 @@
+<div class="create-group-form p-3">
+  <div class="form-name mb-3">
+    <label for="channelName" class="form-label">Channel Name</label>
+    <input type="text" class="form-control" id="channelName" placeholder="Channel Name" #channelNameInput>
+    <small class="text-danger">{{ message }}</small>
+  </div>
+  <div class="btns d-flex justify-content-end">
+    <button class="btn btn-danger me-2" (click)="activeModal.close()">
+      Cancel
+    </button>
+    <button class="btn btn-success" (click)="createNewChannel(channelNameInput.value)">
+      Create
+    </button>
+  </div>

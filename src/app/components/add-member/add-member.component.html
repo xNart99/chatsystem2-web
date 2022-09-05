@@ -11,8 +11,11 @@
     </div>
     <div class="members-list pt-3 flex-grow-1 overflow-auto">
       <ng-container *ngFor="let member of members">
-        <app-member-item *ngIf="member.username.includes(searchValue)" [addingStatus]="checkAddingStatus(member, existingMembers)" [memberId]="member.username"></app-member-item>
+        <app-member-item (onButtonClick)="onButtonClickHandle(member, $event)" *ngIf="member.username.includes(searchValue)" [addingStatus]="checkAddingStatus(member, existingMembers)" [memberId]="member.username"></app-member-item>
       </ng-container>
+    </div>
+    <div class="button-action d-flex justify-content-end">
+      <button class="btn btn-danger" (click)="activeModal.dismiss()">Cancel</button>
     </div>
   </div>
 </div>

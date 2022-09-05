@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class MemberItemComponent implements OnInit {
   @Input() memberId!: string;
   @Input() addingStatus!: boolean;
+  @Output() onButtonClick = new EventEmitter<boolean>();
   member!: User;
   isSelected = false;
   constructor(
@@ -18,5 +19,10 @@ export class MemberItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.member = this.authService.getUserByUsername(this.memberId);
+  }
+
+  onButtonClickHandler(): void {
+    this.onButtonClick.emit(!this.addingStatus);
+    this.addingStatus = !this.addingStatus;
   }
 }

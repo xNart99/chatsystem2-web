@@ -3,11 +3,11 @@
     <div class="group-info d-flex align-items-center">
       <div class="group-profile-pic d-flex align-items-center ms-4 me-2">
         <span class="material-symbols-rounded">
-          groups
+          {{ group ? 'groups' : 'chat' }}
         </span>
       </div>
       <div class="group-name me-2 text-dark">
-        {{ group.name }}
+        {{ group?.name || channel?.name }}
       </div>
     </div>
     <div class="read-status position-relative me-3">

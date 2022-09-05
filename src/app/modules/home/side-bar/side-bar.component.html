@@ -33,10 +33,39 @@
   </div>
   <app-chat-toolbar (onSearch)="searchValue = $event" [havePermission]="checkPermisstion()" (createGroup)="openCreateGroupModal()"></app-chat-toolbar>
   <div class="conversations flex-grow-1 overflow-auto">
-    <ng-container *ngFor="let group of groups">
-      <app-group-bar [group]="group" *ngIf="group.name.includes(searchValue)" (click)="selectGroup(group)" [isSelected]="selectedGroup == group"></app-group-bar>
+    <ng-container *ngIf="type === 'group';else channelItems">
+      <ng-container *ngFor="let group of groups">
+        <app-group-bar [group]="group" *ngIf="group.name.includes(searchValue)" (click)="selectGroup(group)" [isSelected]="selectedGroup == group"></app-group-bar>
+      </ng-container>
+      <div class="w-100 text-center" *ngIf="groups.length == 0">
+        <small>
+          <i>
+            No groups found
+          </i>
+        </small>
+      </div>
     </ng-container>
-  </div>
+    <ng-template #channelItems>
+      <div class="w-100 p-2">
+        <button class="btn btn-danger w-100 d-flex align-items-center justify-content-center" (click)="type = 'group'">
+          <span class="material-symbols-rounded">
+            arrow_back_ios
+          </span>
+        </button> 
+      </div>
+      <ng-container *ngFor="let channel of selectedGroup.channels">
+        <app-group-bar [channel]="channel" *ngIf="channel.name.includes(searchValue)" (click)="selectChannel(channel)"
+          [isSelected]="selectedChannel == channel"></app-group-bar>
+      </ng-container>
+      <div class="w-100 text-center" *ngIf="selectedGroup.channels.length == 0">
+        <small>
+          <i>
+            No channels found
+          </i>
+        </small>
+      </div>
+    </ng-template>
+    </div>
   <div class="members-manager-section" *ngIf="checkPermisstion()">
     <div class="members-manager-btn">
       <button (click)="onMemberManagerClick()" class="btn btn-primary w-100 h-100 rounded-0 d-flex align-items-center justify-content-center p-2" [routerLink]="['/home', 'members-manager']">

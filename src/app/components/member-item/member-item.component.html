@@ -3,7 +3,7 @@
     class="member-bar member-bar-hover d-flex justify-content-between rounded-3 {{ isSelected ? 'bg-light member-bar-wrapper' : '' }}">
     <div class="member-info d-flex align-items-center">
       <div class="member-profile-pic d-flex align-items-center">
-        <span class="material-symbols-outlined" *ngIf="!member.profileImage; else profilePic">
+        <span class="material-symbols-outlined" *ngIf="member && !member.profileImage; else profilePic">
           account_circle
         </span>
         <ng-template #profilePic>
@@ -21,7 +21,7 @@
         class="badge {{ member.role === 'super' ? 'bg-warning' : (member.role === 'groupadmin' ? 'bg-primary' : member.role === 'groupassis' ? 'bg-info' : 'bg-dark') }}">{{ member.role || 'n/a'}}</span>
       </div>
       <div class="member-btn-action align-items-center d-flex me-2" *ngIf="addingStatus != null">
-        <button class="btn d-flex align-items-center justify-content-center {{ addingStatus ? 'btn-danger' : 'btn-success' }}">
+        <button (click)="onButtonClickHandler()" class="btn d-flex align-items-center justify-content-center {{ addingStatus ? 'btn-danger' : 'btn-success' }}">
           <span class="material-symbols-outlined">
             {{ addingStatus ? 'remove' : 'add' }}
           </span>

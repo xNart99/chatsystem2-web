@@ -4,12 +4,14 @@ import { MemberItemComponent } from "./member-item/member-item.component";
 import { CreateAddMemberComponent } from './create-add-member/create-add-member.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AddMemberComponent } from './add-member/add-member.component';
+import { CreateChannelComponent } from './create-channel/create-channel.component';
 
 @NgModule({
   declarations: [
     MemberItemComponent,
     CreateAddMemberComponent,
-    AddMemberComponent
+    AddMemberComponent,
+    CreateChannelComponent
   ],
   imports: [
     CommonModule,

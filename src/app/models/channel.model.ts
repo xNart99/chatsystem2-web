@@ -3,8 +3,9 @@ import { Message } from './message.model'
 export interface Channel {
   id: string;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: number;
+  updatedAt: number;
   messages: Message[]; 
+  read: string[];
   accessingUsers: string[];
 }
