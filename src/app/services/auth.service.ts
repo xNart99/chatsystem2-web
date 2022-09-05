@@ -9,6 +9,10 @@ export class AuthService {
   constructor(
     private storage: StorageService,
   ) {
+    const users = this.storage.get('users') || [];
+    if (!users.length) {
+      this.register('admin', 'admin', 'admin@gmail.com', 'super');
+    }
   }
 
   register(username: string, password: string, email: string, role: string): boolean {
