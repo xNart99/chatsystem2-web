@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="members-list mt-3 overflow-auto flex-grow-1">
-      <ng-container *ngFor="let user of users">
-        <app-member-item *ngIf="user.username.includes(searchValue)" [memberId]="user.username"></app-member-item>
+      <ng-container *ngFor="let u of users">
+        <app-member-item mode="mm" [isYour]="u.username === user.username" (onUserDelete)="onUserDelete($event)" *ngIf="u.username.includes(searchValue)" [havePermission]="user.role === 'super'" [memberId]="u.username"></app-member-item>
       </ng-container>
     </div>
   </div>

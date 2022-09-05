@@ -21,17 +21,21 @@ export class HomeComponent implements OnInit {
   }
 
   onGroupSelectedClick(data: any): void {
-    this.conversationInfo.conversation = data;
-    if (data.members) {
-      this.conversationInfo.parentMembers = this.usersService.usersSubject.value;
-    } else {
-      this.conversationInfo.parentMembers = data.members;
+    if (data) {
+      this.conversationInfo.conversation = data;
+      this.conversationInfo.checkPermission();
+      if (data.members) {
+        this.conversationInfo.parentMembers = this.usersService.usersSubject.value;
+      } else {
+        this.conversationInfo.parentMembers = data.members;
+      }
+      this.router.navigate(['/home', 'conversation']);
     }
-    this.router.navigate(['/home', 'conversation']);
   }
 
   onChannelSelectedClick(data: any): void {
     this.conversationInfo.conversation = data.channel;
+    this.conversationInfo.checkPermission();
     this.conversationInfo.parentMembers = data.parentMembers;
     this.conversationInfo.groupId = data.groupId;
     this.router.navigate(['/home', 'conversation', data.groupId, data.channel.id]);

@@ -16,14 +16,6 @@ export class CreateAddMemberComponent implements OnInit {
       value: 'member'
     },
     {
-      name: 'Super Admin',
-      value: 'super'
-    },
-    {
-      name: 'Group Admin',
-      value: 'groupadmin'
-    },
-    {
       name: 'Group Assistance',
       value: 'groupassis'
     }
@@ -39,6 +31,16 @@ export class CreateAddMemberComponent implements OnInit {
     private authService: AuthService
   ) {
     this.registerForm = this.initRegisterForm();
+    if (this.authService.getUser().role === 'super') {
+      this.roles.push({
+        name: 'Super Admin',
+        value: 'super'
+      },
+      {
+        name: 'Group Admin',
+        value: 'groupadmin'
+      });
+    }
   }
 
   ngOnInit(): void {

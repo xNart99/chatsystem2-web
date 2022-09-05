@@ -37,5 +37,12 @@
         <app-member-item [memberId]="member" *ngFor="let member of conversation.accessingUsers"></app-member-item>
       </ng-container>
     </div>
+    <div class="w-100 p-2" *ngIf="['super', 'groupadmin'].includes(this.user.role)">
+      <button class="btn btn-danger w-100 d-flex align-items-center justify-content-center" (click)="deleteGroupChannel()">
+        <span class="material-symbols-rounded">
+          delete
+        </span>
+      </button>
+    </div>
   </ng-container>
 </div>

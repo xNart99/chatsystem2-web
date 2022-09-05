@@ -35,7 +35,9 @@ export class AuthService {
   }
 
   login(username: string, password: string): boolean {
-    const user = this.storage.get('users').find((user: User) => user.username === username && user.password === password);
+    console.log(username, password);
+    const users = this.storage.get('users') || [];
+    const user = users.find((user: User) => user.username === username && user.password === password);
     if (user) {
       this.storage.set('user', user);
       return true;
@@ -60,7 +62,7 @@ export class AuthService {
   }
 
   getUserByUsername(username: string): User {
-    const user = this.storage.get('users').find((user: User) => user.username === username) || null; 
+    const user = this.storage.get('users')?.find((user: User) => user.username === username) || null; 
     if (user) {
       delete user.password;
     }

@@ -27,6 +27,14 @@
           </span>
         </button>
       </div>
+      <div class="member-btn-action align-items-center d-flex me-2" *ngIf="mode != null && !isYour && havePermission">
+      <button (click)="onUserDeleteHandler()"
+        class="btn d-flex align-items-center justify-content-center btn-danger">
+        <span class="material-symbols-outlined">
+          remove
+        </span>
+      </button>
+      </div>
     </div>
   </div>
 </div>

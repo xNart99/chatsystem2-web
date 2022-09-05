@@ -10,7 +10,11 @@ import { AuthService } from 'src/app/services/auth.service';
 export class MemberItemComponent implements OnInit {
   @Input() memberId!: string;
   @Input() addingStatus!: boolean;
+  @Input() mode!: string;
+  @Input() isYour = false;
+  @Input() havePermission = false;
   @Output() onButtonClick = new EventEmitter<boolean>();
+  @Output() onUserDelete = new EventEmitter<string>();
   member!: User;
   isSelected = false;
   constructor(
@@ -24,5 +28,9 @@ export class MemberItemComponent implements OnInit {
   onButtonClickHandler(): void {
     this.onButtonClick.emit(!this.addingStatus);
     this.addingStatus = !this.addingStatus;
+  }
+
+  onUserDeleteHandler(): void {
+    this.onUserDelete.emit(this.memberId);
   }
 }

@@ -18,9 +18,9 @@ export class GroupService {
     this.getGroups();
   }
 
-  getGroupById(id: string): Group {
-    const groups = this.storage.get('groups');
-    return groups.find((g: Group) => g.id === id) || null;
+  getGroupById(id: string): Group | null {
+    const groups = this.storage.get('groups') || null;
+    return groups?.find((g: Group) => g.id === id) || null;
   }
 
   createGroup(group: Group): boolean {
@@ -39,8 +39,8 @@ export class GroupService {
   }
 
   updateGroup(group: Group): boolean {
-    const groups = this.storage.get('groups');
-    let currentGroup = groups.find((g: Group) => g.id === group.id);
+    const groups = this.storage.get('groups') || null;
+    let currentGroup = groups?.find((g: Group) => g.id === group.id);
     currentGroup = group;
     try {
       this.storage.set('groups', groups);
@@ -53,11 +53,11 @@ export class GroupService {
 
   addMemberToGroup(groupId: string, memberUsername: string): boolean {
     const groups = this.storage.get('groups');
-    const group = groups.find((g: Group) => g.id === groupId);
-    if (group.members.some((m: User) => m.username === memberUsername)) {
+    const group = groups?.find((g: Group) => g.id === groupId);
+    if (group.members?.some((m: User) => m.username === memberUsername)) {
       return false;
     }
-    group.members.push(memberUsername);
+    group.members?.push(memberUsername);
     try {
       this.storage.set('groups', groups);
       this.groupsSubject.next(this.storage.get('groups'));
@@ -69,10 +69,10 @@ export class GroupService {
 
   removeMemberFromGroup(groupId: string, memberUsername: string): boolean {
     const groups = this.storage.get('groups');
-    const group = groups.find((g: Group) => g.id === groupId);
-    if (group.members.find((username: string) => username === memberUsername)) {
+    const group = groups?.find((g: Group) => g.id === groupId);
+    if (group.members?.find((username: string) => username === memberUsername)) {
       console.log('member found');
-      group.members = group.members.filter((username: string) => username !== memberUsername);
+      group.members = group.members?.filter((username: string) => username !== memberUsername);
       try {
         this.storage.set('groups', groups);
         this.groupsSubject.next(this.storage.get('groups'));
@@ -163,4 +163,46 @@ export class GroupService {
     }
   }
 
+  onUserDeleted(username: string): boolean {
+    const groups = this.storage.get('groups') || [];
+    groups.forEach((g: Group) => {
+      g.members = g.members.filter((m: string) => m !== username);
+      g.channels.forEach((c: Channel) => {
+        c.accessingUsers = c.accessingUsers.filter((m: string) => m !== username);
+        c.messages = c.messages.filter((m: Message) => m.from !== username);
+      });
+    });
+    try {
+      this.storage.set('groups', groups);
+      this.groupsSubject.next(this.storage.get('groups'));
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  deleteChannel(groupId: string, channelId: string): boolean {
+    const groups = this.storage.get('groups') || [];
+    const group = groups.find((g: Group) => g.id === groupId);
+    group.channels = group.channels.filter((c: Channel) => c.id !== channelId);
+    try {
+      this.storage.set('groups', groups);
+      this.groupsSubject.next(this.storage.get('groups'));
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  deleteGroup(groupId: string): boolean {
+    let groups = this.storage.get('groups') || [];
+    groups = groups.filter((g: Group) => g.id !== groupId);
+    try {
+      this.storage.set('groups', groups);
+      this.groupsSubject.next(this.storage.get('groups'));
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

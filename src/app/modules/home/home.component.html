@@ -1,13 +1,13 @@
 <div class="w-100 vh-100 p-2 p-lg-5">
   <div class="w-100 h-100 row g-0 rounded-4 overflow-auto row-wrapper">
     <div class="col-3">
-      <app-side-bar (onBackButtonClick)="onGroupSelectedClick($event)" (onChannelSelected)="onChannelSelectedClick($event)" (onMemberManager)="conversationInfo.conversation = null" (onGroupSelected)="onGroupSelectedClick($event)"></app-side-bar>
+      <app-side-bar #sideBar (onBackButtonClick)="onGroupSelectedClick($event)" (onChannelSelected)="onChannelSelectedClick($event)" (onMemberManager)="conversationInfo.conversation = null" (onGroupSelected)="onGroupSelectedClick($event)"></app-side-bar>
     </div>
     <div class="col-6 border-start border-end">
       <router-outlet></router-outlet>
     </div>
     <div class="col-3">
-      <app-conversation-info #conversationInfo></app-conversation-info>
+      <app-conversation-info (onGroupDelete)="sideBar.type = 'group'" (onChannelDelete)="onGroupSelectedClick($event); sideBar.selectedGroup = $event" #conversationInfo></app-conversation-info>
     </div>
   </div>
 </div>

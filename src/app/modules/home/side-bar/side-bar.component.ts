@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateChannelComponent } from 'src/app/components/create-channel/create-channel.component';
@@ -54,6 +54,9 @@ export class SideBarComponent implements OnInit {
         centered: true
       })
       modal.componentInstance.groupId = this.selectedGroup.id;
+      modal.closed.subscribe((channel: Channel) => {
+        this.selectedGroup.channels.push(channel);
+      });
     }
   }
 
@@ -68,15 +71,40 @@ export class SideBarComponent implements OnInit {
     this.onChannelSelected.emit({
       channel,
       groupId: this.selectedGroup.id,
-      parentMembers: this.selectedGroup.members
+      parentMembers: this.groupService.getGroupById(this.selectedGroup.id)?.members || []
     });
   }
 
-  checkPermisstion(): boolean {
-    return ['super', 'groupadmin'].includes(this.user.role);
+  checkPermission(): boolean {
+    if (this.type === 'group') {
+      return ['super', 'groupadmin'].includes(this.user.role);
+    } else if (this.type === 'channel') {
+      return ['super', 'groupadmin', 'groupassis'].includes(this.user.role);
+    } else {
+      return false;
+    }
+  }
+
+  checkPermissionMM(): boolean {
+    return ['super', 'groupadmin'].includes(this.user.role); 
   }
 
   onMemberManagerClick(): void {
     this.onMemberManager.emit();
+  }
+
+  checkUserPremisstion(data: any): boolean {
+    if (this.type === 'group') {
+      if (this.user.role === 'super' || this.user.role === 'groupadmin') {
+        return true;
+      }
+      return data?.members.includes(this.user.username);
+    } else if (this.type === 'channel') {
+      if (this.user.role === 'super' || this.user.role === 'groupadmin' || this.user.role === 'groupassis') {
+        return true;
+      }
+      return data?.accessingUsers.includes(this.user.username);
+    }
+    return false;
   }
 }

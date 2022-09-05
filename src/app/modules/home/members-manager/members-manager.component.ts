@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateAddMemberComponent } from 'src/app/components/create-add-member/create-add-member.component';
 import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { GroupService } from 'src/app/services/group.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -12,16 +14,20 @@ import { UsersService } from 'src/app/services/users.service';
 export class MembersManagerComponent implements OnInit {
   searchValue = '';
   users!: User[];
+  user!: User;
 
   constructor(
     private modalController: NgbModal,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private authService: AuthService,
+    private groupService: GroupService
   ) { }
 
   ngOnInit(): void {
     this.usersService.users$.subscribe((users: User[]) => {
       this.users = users;
     });
+    this.user = this.authService.getUser();
   }
 
   openAddMemberModal(): void {
@@ -35,5 +41,10 @@ export class MembersManagerComponent implements OnInit {
       console.log('works');
       this.usersService.loadUsers();
     })
+  }
+
+  onUserDelete(userId: string): void {
+    this.usersService.removeUser(userId);
+    this.groupService.onUserDeleted(userId);
   }
 }
