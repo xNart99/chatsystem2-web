@@ -1,6 +1,6 @@
 export interface Message {
   id: string;
-  createdAt: Date;
+  createdAt: number;
   type: 'text' | 'image' | 'video';
   content: string;
   from: string;

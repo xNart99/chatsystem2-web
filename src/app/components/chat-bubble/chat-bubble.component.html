@@ -1,0 +1,29 @@
+<div class="chat-bubble w-100 p-3">
+  <div class="chat-bubble-wrapper w-100 d-flex {{ isYour ? 'justify-content-end' : '' }}">
+    <div class="member-info d-flex align-items-center" *ngIf="!isYour">
+      <div class="member-profile-pic d-flex align-items-center">
+        <span class="material-symbols-outlined fs-1" *ngIf="sender && !sender.profileImage; else profilePic">
+          account_circle
+        </span>
+        <ng-template #profilePic>
+          <img [src]="sender?.profileImage" alt="profile-pic" class="profile-pic">
+        </ng-template>
+      </div>
+    </div>
+    <div class="member-name ms-2 d-flex flex-column w-100" *ngIf="!isYour">
+      <small>
+        {{ sender?.username }}
+      </small>
+      <div class="chat-container w-50 mt-2">
+        <span class="border px-3 py-2 rounded-5">
+          {{ message.content }}
+        </span>
+      </div>
+    </div>
+    <div class="me-2" *ngIf="isYour">
+      <span class="border px-3 py-2 rounded-5">
+        {{ message.content }}
+      </span>
+    </div>
+  </div>
+</div>

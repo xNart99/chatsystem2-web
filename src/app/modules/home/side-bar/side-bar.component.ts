@@ -17,7 +17,8 @@ import { CreateGroupComponent } from './create-group/create-group.component';
 export class SideBarComponent implements OnInit {
   @Output() onGroupSelected = new EventEmitter<Group>();
   @Output() onMemberManager = new EventEmitter<void>();
-  @Output() onChannelSelected = new EventEmitter<Channel>();
+  @Output() onChannelSelected = new EventEmitter<{channel: Channel, groupId: string, parentMembers: string[]}>();
+  @Output() onBackButtonClick = new EventEmitter<Group>();
   user!: User;
   groups: Group[] = [];
   selectedGroup!: Group;
@@ -64,7 +65,11 @@ export class SideBarComponent implements OnInit {
 
   selectChannel(channel: Channel): void {
     this.selectedChannel = channel;
-    this.onChannelSelected.emit(channel);
+    this.onChannelSelected.emit({
+      channel,
+      groupId: this.selectedGroup.id,
+      parentMembers: this.selectedGroup.members
+    });
   }
 
   checkPermisstion(): boolean {

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { Channel } from "../models/channel.model";
 import { Group } from "../models/group.model";
+import { Message } from "../models/message.model";
 import { User } from "../models/user.model";
 import { StorageService } from "./storage.service";
 
@@ -111,11 +112,11 @@ export class GroupService {
     const groups = this.storage.get('groups');
     const group = groups.find((g: Group) => g.id === groupId);
     const channel = group.channels.find((c: Channel) => c.id === channelId);
-    if (channel.members.some((m: User) => m.username === username)) {
+    if (channel.accessingUsers.some((m: string) => m === username)) {
       console.log('user already in channel');
       return false;
     }
-    channel.members.push(username);
+    channel.accessingUsers.push(username);
     try {
       this.storage.set('groups', groups);
       this.groupsSubject.next(this.storage.get('groups'));
@@ -129,8 +130,8 @@ export class GroupService {
     const groups = this.storage.get('groups');
     const group = groups.find((g: Group) => g.id === groupId);
     const channel = group.channels.find((c: Channel) => c.id === channelId);
-    if (channel.members.some((m: User) => m.username === username)) {
-      channel.members = channel.members.filter((m: User) => m.username !== username);
+    if (channel.accessingUsers.some((m: string) => m === username)) {
+      channel.accessingUsers = channel.accessingUsers.filter((m: string) => m !== username);
       try {
         this.storage.set('groups', groups);
         this.groupsSubject.next(this.storage.get('groups'));
@@ -141,4 +142,25 @@ export class GroupService {
     }
     return false;
   }
+
+  getChannelById(groupId: string, channelId: string): Channel {
+    const groups = this.storage.get('groups');
+    const group = groups.find((g: Group) => g.id === groupId) || null;
+    return group?.channels.find((c: Channel) => c.id === channelId) || null;
+  }
+
+  sendMessageToChannel(groupId: string, channelId: string, message: Message, username: string): boolean {
+    const groups = this.storage.get('groups');
+    const group = groups.find((g: Group) => g.id === groupId);
+    const channel = group.channels.find((c: Channel) => c.id === channelId);
+    channel.messages.push(message);
+    try {
+      this.storage.set('groups', groups);
+      this.groupsSubject.next(this.storage.get('groups'));
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
 }

@@ -1,8 +1,22 @@
-<div class="w-100 h-100 d-flex flex-column">
-  <div class="w-100 h-100 no-channel d-flex flex-column align-items-center justify-content-center">
+<div class="w-100 h-100">
+  <div class="w-100 h-100 no-channel d-flex flex-column align-items-center justify-content-center" *ngIf="!channel">
     <span class="material-symbols-outlined text-secondary">
       chat_bubble
     </span>
     <p class="fs-5 text-secondary">Please select a channel!</p>
+  </div>
+  <div class="w-100 h-100 d-flex flex-column" *ngIf="channel">
+    <div class="w-100 d-flex align-items-center p-3 fs-4 border-bottom">
+      {{ channel?.name }}
+    </div>
+    <div class="w-100 chat-log flex-grow-1 overflow-auto border-bottom">
+      <app-chat-bubble *ngFor="let message of channel.messages" [message]="message" [isYour]="message.from === user.username"></app-chat-bubble>
+    </div>
+    <div class="w-100 chat-box">
+      <div class="w-100 d-flex align-items-center p-3">
+        <input type="text" class="form-control" placeholder="Type a message" [(ngModel)]="message" (keyup.enter)="sendMessage()"/>
+        <button type="submit" class="btn btn-primary ms-2" (click)="sendMessage()">Send</button>
+      </div>
+    </div>
   </div>
 </div>

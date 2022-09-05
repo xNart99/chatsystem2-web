@@ -5,13 +5,15 @@ import { CreateAddMemberComponent } from './create-add-member/create-add-member.
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AddMemberComponent } from './add-member/add-member.component';
 import { CreateChannelComponent } from './create-channel/create-channel.component';
+import { ChatBubbleComponent } from './chat-bubble/chat-bubble.component';
 
 @NgModule({
   declarations: [
     MemberItemComponent,
     CreateAddMemberComponent,
     AddMemberComponent,
-    CreateChannelComponent
+    CreateChannelComponent,
+    ChatBubbleComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { CreateChannelComponent } from './create-channel/create-channel.componen
     FormsModule
   ],
   exports: [
-    MemberItemComponent
+    MemberItemComponent,
+    ChatBubbleComponent
   ]
 })
 export class ComponentsModule {

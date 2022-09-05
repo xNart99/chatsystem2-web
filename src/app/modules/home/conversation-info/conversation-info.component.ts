@@ -12,7 +12,8 @@ import { GroupService } from 'src/app/services/group.service';
 })
 export class ConversationInfoComponent implements OnInit {
   @Input() conversation: any;
-  @Input() parentMembers: User[] = [];
+  @Input() parentMembers: any[] = [];
+  @Input() groupId!: string;
   havePermission = false;
   user!: User;
 
@@ -38,7 +39,13 @@ export class ConversationInfoComponent implements OnInit {
         centered: true,
       }
     );
-    modal.componentInstance.members = this.parentMembers;
+    if (this.conversation.members) {
+      modal.componentInstance.members = this.parentMembers;
+    } else {
+      modal.componentInstance.members = this.parentMembers.map((username: string) => {
+        return this.authService.getUserByUsername(username);
+      })
+    }
     if (this.conversation.members) {
       modal.componentInstance.group = this.conversation;
       modal.componentInstance.existingMembers = this.conversation.members;
@@ -48,6 +55,10 @@ export class ConversationInfoComponent implements OnInit {
     } else {
       modal.componentInstance.channel = this.conversation;
       modal.componentInstance.existingMembers = this.conversation.accessingUsers;
+      modal.componentInstance.groupId = this.groupId;
+      modal.componentInstance.afterButtonClicked.subscribe(() => {
+        this.conversation = this.groupService.getChannelById(this.groupId,this.conversation.id);
+      });
     }
   }
 }

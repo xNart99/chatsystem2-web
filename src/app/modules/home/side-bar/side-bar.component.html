@@ -47,7 +47,7 @@
     </ng-container>
     <ng-template #channelItems>
       <div class="w-100 p-2">
-        <button class="btn btn-danger w-100 d-flex align-items-center justify-content-center" (click)="type = 'group'">
+        <button class="btn btn-danger w-100 d-flex align-items-center justify-content-center" (click)="type = 'group';onBackButtonClick.emit(selectedGroup)">
           <span class="material-symbols-rounded">
             arrow_back_ios
           </span>

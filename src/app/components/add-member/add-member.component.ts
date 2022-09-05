@@ -16,6 +16,7 @@ export class AddMemberComponent implements OnInit {
   @Input() group?: Group;
   @Input() channel?: Channel;
   @Output() afterButtonClicked = new EventEmitter<void>();
+  @Input() groupId!: string;
   searchValue = '';
 
   constructor(
@@ -24,6 +25,7 @@ export class AddMemberComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.members);
   }
 
   checkAddingStatus(member: User, existingMembers: string[]): boolean {
@@ -36,6 +38,13 @@ export class AddMemberComponent implements OnInit {
         this.groupService.addMemberToGroup(this.group.id, member.username);
       } else {
         this.groupService.removeMemberFromGroup(this.group.id, member.username);
+      }
+      this.afterButtonClicked.emit();
+    } else {
+      if (addingStatus) {
+        this.groupService.addUserToChannel(this.groupId, this.channel!.id, member.username);
+      } else {
+        this.groupService.removeUserFromChannel(this.groupId, this.channel!.id, member.username);
       }
       this.afterButtonClicked.emit();
     }
