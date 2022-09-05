@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CreateAddMemberComponent } from 'src/app/components/create-add-member/create-add-member.component';
+import { AddMemberComponent } from 'src/app/components/add-member/add-member.component';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ConversationInfoComponent implements OnInit {
   @Input() conversation: any;
+  @Input() parentMembers: User[] = [];
   havePermission = false;
   user!: User;
 
@@ -25,15 +26,23 @@ export class ConversationInfoComponent implements OnInit {
   }
 
   checkPermisstion(): boolean {
-    return ['superadmin', 'groupadmin'].includes(this.user.role);
+    return ['super', 'groupadmin'].includes(this.user.role);
   }
 
   openCreateAddUser(): void {
     const modal = this.modalService.open(
-      CreateAddMemberComponent,
+      AddMemberComponent,
       {
         centered: true,
       }
     );
+    modal.componentInstance.members = this.parentMembers;
+    if (this.conversation.members) {
+      modal.componentInstance.group = this.conversation;
+      modal.componentInstance.existingMembers = this.conversation.members;
+    } else {
+      modal.componentInstance.channel = this.conversation;
+      modal.componentInstance.existingMembers = this.conversation.accessingUsers;
+    }
   }
 }

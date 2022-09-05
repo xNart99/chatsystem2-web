@@ -14,9 +14,11 @@ import { CreateGroupComponent } from './create-group/create-group.component';
 })
 export class SideBarComponent implements OnInit {
   @Output() onGroupSelected = new EventEmitter<Group>();
+  @Output() onMemberManager = new EventEmitter<void>();
   user!: User;
   groups: Group[] = [];
   selectedGroup!: Group;
+  searchValue = '';
   constructor(
     private authService: AuthService,
     private modalService: NgbModal,
@@ -48,6 +50,10 @@ export class SideBarComponent implements OnInit {
   }
 
   checkPermisstion(): boolean {
-    return ['superadmin', 'groupadmin'].includes(this.user.role);
+    return ['super', 'groupadmin'].includes(this.user.role);
+  }
+
+  onMemberManagerClick(): void {
+    this.onMemberManager.emit();
   }
 }

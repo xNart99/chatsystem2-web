@@ -14,9 +14,19 @@
         {{ member.username }}
       </div>
     </div>
-    <div class="member-role align-items-center d-flex mx-3">
-      <span
+    <div class="member-additional d-flex align-items-center">
+
+      <div class="member-role align-items-center d-flex mx-3">
+        <span
         class="badge {{ member.role === 'super' ? 'bg-warning' : (member.role === 'groupadmin' ? 'bg-primary' : member.role === 'groupassis' ? 'bg-info' : 'bg-dark') }}">{{ member.role || 'n/a'}}</span>
+      </div>
+      <div class="member-btn-action align-items-center d-flex me-2" *ngIf="addingStatus != null">
+        <button class="btn d-flex align-items-center justify-content-center {{ addingStatus ? 'btn-danger' : 'btn-success' }}">
+          <span class="material-symbols-outlined">
+            {{ addingStatus ? 'remove' : 'add' }}
+          </span>
+        </button>
+      </div>
     </div>
   </div>
 </div>

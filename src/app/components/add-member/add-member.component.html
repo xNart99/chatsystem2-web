@@ -1,0 +1,18 @@
+<div class="members-manager w-100 p-3">
+  <div class="members-manager-toolbar d-flex flex-column h-100">
+    <div class="members-manager-toolbar-title">
+      <h1 class="fs-3">Add users into {{ group ? group.name + ' group' : channel?.name + ' channel' }}</h1>
+    </div>
+    <div class="members-manager-toolbar-btns d-flex">
+      <!-- search --> 
+      <div class="d-flex w-75">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchValue">
+      </div>
+    </div>
+    <div class="members-list pt-3 flex-grow-1 overflow-auto">
+      <ng-container *ngFor="let member of members">
+        <app-member-item *ngIf="member.username.includes(searchValue)" [addingStatus]="checkAddingStatus(member, existingMembers)" [memberId]="member.username"></app-member-item>
+      </ng-container>
+    </div>
+  </div>
+</div>

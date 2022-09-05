@@ -1,4 +1,4 @@
-<div class="w-100 h-100 p-4">
+<div class="w-100 h-100 p-4 d-flex flex-column">
   <ng-container *ngIf="conversation">
     <div class="group-channel-info fs-5 mb-3 text-secondary">
       {{ conversation.members ? 'Group' : 'Channel' }} Information
@@ -29,7 +29,7 @@
         </span>
       </button>
     </div>
-    <div class="member-list d-flex flex-column">
+    <div class="member-list flex-grow-1 overflow-auto">
       <ng-container *ngIf="conversation && conversation.members">
         <app-member-item [memberId]="member" *ngFor="let member of conversation.members"></app-member-item>
       </ng-container>

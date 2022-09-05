@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateAddMemberComponent } from 'src/app/components/create-add-member/create-add-member.component';
 import { User } from 'src/app/models/user.model';
@@ -10,6 +10,7 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./members-manager.component.scss']
 })
 export class MembersManagerComponent implements OnInit {
+  searchValue = '';
   users!: User[];
 
   constructor(

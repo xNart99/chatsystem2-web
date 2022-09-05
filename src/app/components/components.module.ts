@@ -2,16 +2,19 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MemberItemComponent } from "./member-item/member-item.component";
 import { CreateAddMemberComponent } from './create-add-member/create-add-member.component';
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AddMemberComponent } from './add-member/add-member.component';
 
 @NgModule({
   declarations: [
     MemberItemComponent,
-    CreateAddMemberComponent
+    CreateAddMemberComponent,
+    AddMemberComponent
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     MemberItemComponent

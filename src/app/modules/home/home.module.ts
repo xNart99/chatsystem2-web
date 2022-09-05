@@ -12,6 +12,7 @@ import { CreateGroupComponent } from './side-bar/create-group/create-group.compo
 import { ComponentsModule } from 'src/app/components/components.module';
 import { MembersManagerComponent } from './members-manager/members-manager.component';
 import { MembersManagerInfoComponent } from './members-manager-info/members-manager-info.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { MembersManagerInfoComponent } from './members-manager-info/members-mana
   imports: [
     CommonModule,
     HomeRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    FormsModule
   ]
 })
 export class HomeModule { }

@@ -52,7 +52,11 @@ export class AuthService {
   }
 
   getUser(): User {
-    return this.storage.get('user') || null;
+    const user = this.storage.get('user') || null;
+    if (user) {
+      delete user.password;
+    }
+    return user;
   }
 
   getUserByUsername(username: string): User {
@@ -68,6 +72,13 @@ export class AuthService {
   }
 
   getAllUsers(): User[] {
-    return this.storage.get('users');
+    let users = this.storage.get('users') || [];
+    if (users) {
+      users = users.map((user: User) => {
+        delete user.password;
+        return user;
+      });
+    }
+    return users;
   }
 }

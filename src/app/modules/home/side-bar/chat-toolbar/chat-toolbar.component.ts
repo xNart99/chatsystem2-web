@@ -8,6 +8,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class ChatToolbarComponent implements OnInit {
   @Output() createGroup = new EventEmitter<void>();
   @Input() havePermission = false;
+  @Output() onSearch = new EventEmitter<string>();
+  searchValue = '';
 
   constructor() { }
 
@@ -18,4 +20,8 @@ export class ChatToolbarComponent implements OnInit {
     this.createGroup.emit();
   }
 
+  onSearchChange(value: any): void {
+    console.log(value);
+    this.onSearch.emit(value);
+  }
 }

@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
     },
     {
       name: 'Super Admin',
-      value: 'superadmin'
+      value: 'super'
     },
     {
       name: 'Group Admin',
