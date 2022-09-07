@@ -19,7 +19,7 @@ export class GroupService {
   }
 
   getGroupById(id: string): Group | null {
-    const groups = this.storage.get('groups') || null;
+    const groups = this.storage.get('groups') || [];
     return groups?.find((g: Group) => g.id === id) || null;
   }
 
@@ -39,7 +39,7 @@ export class GroupService {
   }
 
   updateGroup(group: Group): boolean {
-    const groups = this.storage.get('groups') || null;
+    const groups = this.storage.get('groups') || [];
     let currentGroup = groups?.find((g: Group) => g.id === group.id);
     currentGroup = group;
     try {
@@ -52,7 +52,7 @@ export class GroupService {
   }
 
   addMemberToGroup(groupId: string, memberUsername: string): boolean {
-    const groups = this.storage.get('groups');
+    const groups = this.storage.get('groups') || [];
     const group = groups?.find((g: Group) => g.id === groupId);
     if (group.members?.some((m: User) => m.username === memberUsername)) {
       return false;
@@ -68,7 +68,7 @@ export class GroupService {
   }
 
   removeMemberFromGroup(groupId: string, memberUsername: string): boolean {
-    const groups = this.storage.get('groups');
+    const groups = this.storage.get('groups') || [];
     const group = groups?.find((g: Group) => g.id === groupId);
     if (group.members?.find((username: string) => username === memberUsername)) {
       console.log('member found');
@@ -91,7 +91,7 @@ export class GroupService {
   }
 
   createChannel(groupId: string, channel: Channel): boolean {
-    const groups = this.storage.get('groups');
+    const groups = this.storage.get('groups') || [];
     const group = groups.find((g: Group) => g.id === groupId);
     if (group.channels.some((c: Channel) => c.name === channel.name)) {
       console.log('channel name is taken');
@@ -109,7 +109,7 @@ export class GroupService {
   }
 
   addUserToChannel(groupId: string, channelId: string, username: string): boolean {
-    const groups = this.storage.get('groups');
+    const groups = this.storage.get('groups') || [];
     const group = groups.find((g: Group) => g.id === groupId);
     const channel = group.channels.find((c: Channel) => c.id === channelId);
     if (channel.accessingUsers.some((m: string) => m === username)) {
@@ -127,7 +127,7 @@ export class GroupService {
   }
 
   removeUserFromChannel(groupId: string, channelId: string, username: string): boolean {
-    const groups = this.storage.get('groups');
+    const groups = this.storage.get('groups') || [];
     const group = groups.find((g: Group) => g.id === groupId);
     const channel = group.channels.find((c: Channel) => c.id === channelId);
     if (channel.accessingUsers.some((m: string) => m === username)) {
@@ -144,13 +144,13 @@ export class GroupService {
   }
 
   getChannelById(groupId: string, channelId: string): Channel {
-    const groups = this.storage.get('groups');
+    const groups = this.storage.get('groups') || [];
     const group = groups.find((g: Group) => g.id === groupId) || null;
     return group?.channels.find((c: Channel) => c.id === channelId) || null;
   }
 
   sendMessageToChannel(groupId: string, channelId: string, message: Message, username: string): boolean {
-    const groups = this.storage.get('groups');
+    const groups = this.storage.get('groups') || [];
     const group = groups.find((g: Group) => g.id === groupId);
     const channel = group.channels.find((c: Channel) => c.id === channelId);
     channel.messages.push(message);
