@@ -38,10 +38,9 @@ export class MemberItemComponent implements OnInit {
   }
 
   changeMemberRole(role: 'super' | 'groupadmin' | 'groupassis' | 'member') {
-    if (
-      this.authService.updateUser(this.member)
-      ) {
-        this.member.role = role;
+    this.member.role = role;
+    if (!this.authService.updateUser(this.member)) {
+      console.log('change role failed');
     }
   }
 }

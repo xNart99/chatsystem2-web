@@ -47,7 +47,7 @@
             </span>
              Group Assistant
           </a></li>
-          <li><a (click)="changeMemberRole('groupadmin')" class="dropdown-item d-flex align-items-center" >
+          <li *ngIf="user.role === 'super'"><a (click)="changeMemberRole('groupadmin')" class="dropdown-item d-flex align-items-center" >
             <span class="material-symbols-rounded me-2">
               admin_panel_settings
             </span>
