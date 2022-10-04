@@ -19,7 +19,14 @@ export class UsersService {
   }
 
   loadUsers(): void {
-    this.usersSubject.next(this.authService.getAllUsers() || []);
+    this.authService.getAllUsers().subscribe(
+      res => {
+        this.usersSubject.next(res);
+      }, error => {
+        console.log(error);
+        this.usersSubject.next([]);
+      }
+    )
   }
 
   removeUser(username: string): boolean {

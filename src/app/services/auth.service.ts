@@ -16,27 +16,6 @@ export class AuthService {
   }
 
   register(username: string, password: string, email: string, role: string): Observable<any> {
-    // const isUsernameTaken = this.storage.get('users')?.find((user: User) => user.username === username);
-    // const isEmailTaken = this.storage.get('users')?.find((user: User) => user.email === email);
-    // const user = {
-    //   username,
-    //   password,
-    //   email,
-    //   role
-    // };
-    // if (isUsernameTaken) {
-    //   return false;
-    // }
-    // if (isEmailTaken) {
-    //   return false;
-    // }
-    // if (!this.storage.get('users')) {
-    //   this.storage.set('users', [user]);
-    // } else {
-    //   this.storage.set('users', [...this.storage.get('users'), user]);
-    // }
-    // return true;
-
     return this.http.post('/auth/register', {username, password, email, role});
   }
 
@@ -67,15 +46,16 @@ export class AuthService {
     this.storage.clear();
   }
 
-  getAllUsers(): User[] {
-    let users = this.storage.get('users') || [];
-    if (users) {
-      users = users.map((user: User) => {
-        delete user.password;
-        return user;
-      });
-    }
-    return users;
+  getAllUsers(): Observable<User[]> {
+    // let users = this.storage.get('users') || [];
+    // if (users) {
+    //   users = users.map((user: User) => {
+    //     delete user.password;
+    //     return user;
+    //   });
+    // }
+    // return users;
+    return this.http.get('/users');
   }
 
   updateUser(user: User): boolean {
