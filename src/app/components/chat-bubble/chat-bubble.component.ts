@@ -18,7 +18,13 @@ export class ChatBubbleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.sender = this.authService.getUserByUsername(this.message.from);
+    this.authService.getUserByUsername(this.message.from).subscribe(
+      res => {
+        this.sender = res;
+      }, error => {
+        console.log(error);
+      }
+    )
   }
 
 }

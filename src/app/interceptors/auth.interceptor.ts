@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 return;
               }
               
-            //   this.authFacade.logout();
+            this.storageService.clear();
             }
         }));
       }

@@ -12,10 +12,7 @@ export class AuthService {
     private storage: StorageService,
     private http: HttpService
   ) {
-    const users = this.storage.get('users') || [];
-    if (!users.length) {
-      this.register('admin', 'admin', 'admin@gmail.com', 'super');
-    }
+    
   }
 
   register(username: string, password: string, email: string, role: string): boolean {
@@ -42,14 +39,6 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<any> {
-    // console.log(username, password);
-    // const users = this.storage.get('users') || [];
-    // const user = users.find((user: User) => user.username === username && user.password === password);
-    // if (user) {
-    //   this.storage.set('user', user);
-    //   return true;
-    // }
-    // return false;
     return this.http.post('/auth/login', {username, password}).pipe(tap(({ token, role }) => {
       this.storage.set('token', token);
       this.storage.set('role', role);
@@ -65,24 +54,15 @@ export class AuthService {
   }
 
   getUser(): Observable<User> {
-    // const user = this.storage.get('user') || null;
-    // if (user) {
-    //   delete user.password;
-    // }
-    // return user;
     return this.http.get('/users/profile');
   }
 
-  getUserByUsername(username: string): User {
-    const user = this.storage.get('users')?.find((user: User) => user.username === username) || null; 
-    if (user) {
-      delete user.password;
-    }
-    return user;
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get('/users/search', {params: {username}});
   }
 
   logout(): void {
-    this.storage.remove('user');
+    this.storage.clear();
   }
 
   getAllUsers(): User[] {

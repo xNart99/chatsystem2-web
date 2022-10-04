@@ -35,7 +35,7 @@
             delete
           </span>
         </button>
-        <button *ngIf="!(user.role === 'groupadmin' && member.role === 'super')" class="btn d-flex align-items-center justify-content-center btn-outline-primary ms-2" data-bs-toggle="dropdown" aria-expanded="false">
+        <button *ngIf="!(user?.role === 'groupadmin' && member.role === 'super')" class="btn d-flex align-items-center justify-content-center btn-outline-primary ms-2" data-bs-toggle="dropdown" aria-expanded="false">
           <span class="material-symbols-outlined">
             edit
           </span>
@@ -47,13 +47,13 @@
             </span>
              Group Assistant
           </a></li>
-          <li *ngIf="user.role === 'super'"><a (click)="changeMemberRole('groupadmin')" class="dropdown-item d-flex align-items-center" >
+          <li *ngIf="user?.role === 'super'"><a (click)="changeMemberRole('groupadmin')" class="dropdown-item d-flex align-items-center" >
             <span class="material-symbols-rounded me-2">
               admin_panel_settings
             </span>
             Group Admin
           </a></li>
-          <li *ngIf="user.role === 'super'"><a (click)="changeMemberRole('super')" class="dropdown-item d-flex align-items-center">
+          <li *ngIf="user?.role === 'super'"><a (click)="changeMemberRole('super')" class="dropdown-item d-flex align-items-center">
             <span class="material-symbols-rounded me-2">
               star
             </span>
