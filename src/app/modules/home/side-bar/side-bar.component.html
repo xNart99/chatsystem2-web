@@ -37,7 +37,7 @@
       <ng-container *ngFor="let group of groups">
         <app-group-bar [group]="group" *ngIf="group.name.includes(searchValue) && checkUserPremisstion(group)" (click)="selectGroup(group)" [isSelected]="selectedGroup == group"></app-group-bar>
       </ng-container>
-      <div class="w-100 text-center" *ngIf="groups && groups.length == 0">
+      <div class="w-100 text-center" *ngIf="groups && groups?.length == 0">
         <small>
           <i>
             No groups found
