@@ -47,27 +47,10 @@ export class AuthService {
   }
 
   getAllUsers(): Observable<User[]> {
-    // let users = this.storage.get('users') || [];
-    // if (users) {
-    //   users = users.map((user: User) => {
-    //     delete user.password;
-    //     return user;
-    //   });
-    // }
-    // return users;
     return this.http.get('/users');
   }
 
-  updateUser(user: User): boolean {
-    const users = this.storage.get('users') || [];
-    const m = users.find((u: User) => u.username === user.username);
-    m.role = user.role;
-    try {
-      this.storage.set('users', users);
-      return true;
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
+  updateUser(user: User): Observable<any> {
+    return this.http.put('/users/role',user);
   }
 }
