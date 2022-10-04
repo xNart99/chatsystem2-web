@@ -56,14 +56,16 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     const { username, password, email, role } = this.registerForm.value;
-    if (this.authService.register(username, password, email, role)) {
-      this.registerForm.reset();
-      this.registerForm.controls['role'].setValue('member');
-      this.message.text = 'Registration successful';
-      this.message.type = 'success';
-    } else {
-      this.message.text = 'Username or email is already taken';
-      this.message.type = 'danger';
-    }
+    this.authService.register(username, password, email, role).subscribe(
+      res => {
+        this.registerForm.reset();
+        this.registerForm.controls['role'].setValue('member');
+        this.message.text = 'Registration successful';
+        this.message.type = 'success';
+      }, error => {
+        this.message.text = 'Username or email is already taken';
+        this.message.type = 'danger';
+      }
+    );
   }
 }
