@@ -50,7 +50,10 @@ export class AuthService {
     //   return true;
     // }
     // return false;
-    return this.http.post('/auth/login', {username, password}).pipe(tap(({ token }) => this.storage.set('token', token)));
+    return this.http.post('/auth/login', {username, password}).pipe(tap(({ token, role }) => {
+      this.storage.set('token', token);
+      this.storage.set('role', role);
+    }));
   }
 
   autoLogin(): boolean {
@@ -61,12 +64,13 @@ export class AuthService {
     return false;
   }
 
-  getUser(): User {
-    const user = this.storage.get('user') || null;
-    if (user) {
-      delete user.password;
-    }
-    return user;
+  getUser(): Observable<User> {
+    // const user = this.storage.get('user') || null;
+    // if (user) {
+    //   delete user.password;
+    // }
+    // return user;
+    return this.http.get('/users/profile');
   }
 
   getUserByUsername(username: string): User {

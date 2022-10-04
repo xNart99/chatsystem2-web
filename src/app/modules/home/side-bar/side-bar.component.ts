@@ -33,7 +33,13 @@ export class SideBarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = this.authService.getUser();
+    this.authService.getUser().subscribe(
+      res => {
+        this.user = res;
+      },error => {
+        console.log(error);
+      }
+    );
     this.groupService.groups$.subscribe((groups: Group[]) => {
       this.groups = groups;
     });

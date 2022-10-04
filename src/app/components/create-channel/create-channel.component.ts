@@ -20,7 +20,14 @@ export class CreateChannelComponent implements OnInit {
     private authService: AuthService,
     private groupService: GroupService
   ) {
-    this.currentUser = this.authService.getUser();
+    this.authService.getUser().subscribe(
+      res => {
+        this.currentUser = res;
+      },error => {
+        console.log(error);
+        
+      }
+    );
   }
 
   ngOnInit(): void {

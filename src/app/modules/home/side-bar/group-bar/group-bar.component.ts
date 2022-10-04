@@ -21,7 +21,14 @@ export class GroupBarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.currentUser = this.authService.getUser();
+    this.authService.getUser().subscribe(
+      res => {
+        this.currentUser = res;
+      },error => {
+        console.log(error);
+        
+      }
+    );
     if (this.group) {
       this.isRead = this.group.read?.includes(this.currentUser.username);
     } else if (this.channel) {

@@ -27,7 +27,14 @@ export class ConversationComponent implements OnInit {
         this.channel = this.groupService.getChannelById(this.url[this.url.length - 2], this.url[this.url.length - 1]);
       }
     });
-    this.user = this.authService.getUser();
+    this.authService.getUser().subscribe(
+      res => {
+        this.user = res;
+      },error => {
+        console.log(error);
+        
+      }
+    );
   }
 
   ngOnInit(): void {

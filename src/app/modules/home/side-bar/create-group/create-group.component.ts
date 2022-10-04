@@ -20,7 +20,14 @@ export class CreateGroupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.currentUser = this.authService.getUser();
+    this.authService.getUser().subscribe(
+      res => {
+        this.currentUser = res;
+      },error => {
+        console.log(error);
+        
+      }
+    );
   }
 
   createNewGroup(groupName: string): void {

@@ -21,7 +21,14 @@ export class MemberItemComponent implements OnInit {
   constructor(
     private authService: AuthService
   ) {
-    this.user = this.authService.getUser();
+    this.authService.getUser().subscribe(
+      res => {
+        this.user = res;
+      },error => {
+        console.log(error);
+        
+      }
+    );
   }
 
   ngOnInit(): void {

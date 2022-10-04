@@ -19,12 +19,12 @@ import { HttpService } from './services/http.service';
     HttpClientModule
   ],
   providers: [
+    HttpService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    },
-    HttpService
+    }
   ],
   bootstrap: [AppComponent]
 })

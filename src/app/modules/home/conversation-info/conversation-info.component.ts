@@ -30,7 +30,14 @@ export class ConversationInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = this.authService.getUser();
+    this.authService.getUser().subscribe(
+      res => {
+        this.user = res;
+      },error => {
+        console.log(error);
+        
+      }
+    );
   }
 
   checkPermission(): void {

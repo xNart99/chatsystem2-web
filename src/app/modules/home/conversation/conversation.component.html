@@ -10,7 +10,7 @@
       {{ channel?.name }}
     </div>
     <div class="w-100 chat-log flex-grow-1 overflow-auto border-bottom">
-      <app-chat-bubble *ngFor="let message of channel.messages" [message]="message" [isYour]="message.from === user.username"></app-chat-bubble>
+      <app-chat-bubble *ngFor="let message of channel.messages" [message]="message" [isYour]="message.from === user?.username"></app-chat-bubble>
     </div>
     <div class="w-100 chat-box">
       <div class="w-100 d-flex align-items-center p-3">

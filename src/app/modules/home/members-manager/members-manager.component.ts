@@ -27,7 +27,14 @@ export class MembersManagerComponent implements OnInit {
     this.usersService.users$.subscribe((users: User[]) => {
       this.users = users;
     });
-    this.user = this.authService.getUser();
+    this.authService.getUser().subscribe(
+      res => {
+        this.user = res;
+      },error => {
+        console.log(error);
+        
+      }
+    );
   }
 
   openAddMemberModal(): void {

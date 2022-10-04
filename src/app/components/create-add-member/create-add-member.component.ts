@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { PasswordMatch } from 'src/app/validators/password-match.validator';
 
 @Component({
@@ -28,10 +29,11 @@ export class CreateAddMemberComponent implements OnInit {
 
   constructor(
     public modal: NgbActiveModal,
-    private authService: AuthService
+    private authService: AuthService,
+    private storageServie: StorageService
   ) {
     this.registerForm = this.initRegisterForm();
-    if (this.authService.getUser().role === 'super') {
+    if (this.storageServie.get('role') === 'super') {
       this.roles.push({
         name: 'Super Admin',
         value: 'super'
