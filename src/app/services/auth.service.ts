@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
+import { map, Observable, tap } from "rxjs";
 import { User } from "../models/user.model";
+import { HttpService } from "./http.service";
 import { StorageService } from "./storage.service";
 
 @Injectable({
@@ -8,6 +10,7 @@ import { StorageService } from "./storage.service";
 export class AuthService {
   constructor(
     private storage: StorageService,
+    private http: HttpService
   ) {
     const users = this.storage.get('users') || [];
     if (!users.length) {
@@ -38,20 +41,21 @@ export class AuthService {
     return true;
   }
 
-  login(username: string, password: string): boolean {
-    console.log(username, password);
-    const users = this.storage.get('users') || [];
-    const user = users.find((user: User) => user.username === username && user.password === password);
-    if (user) {
-      this.storage.set('user', user);
-      return true;
-    }
-    return false;
+  login(username: string, password: string): Observable<any> {
+    // console.log(username, password);
+    // const users = this.storage.get('users') || [];
+    // const user = users.find((user: User) => user.username === username && user.password === password);
+    // if (user) {
+    //   this.storage.set('user', user);
+    //   return true;
+    // }
+    // return false;
+    return this.http.post('/auth/login', {username, password}).pipe(tap(({ token }) => this.storage.set('token', token)));
   }
 
   autoLogin(): boolean {
-    const user = this.storage.get('user');
-    if (user) {
+    const token = this.storage.get('token');
+    if (token) {
       return true;
     }
     return false;

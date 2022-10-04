@@ -34,17 +34,20 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     const { username, password } = this.loginForm.value;
-    if (this.authService.login(username, password)) {
-      this.message = {
-        type: 'success',
-        text: 'Login successful'
-      };
-      this.router.navigate(['/home'])
-    }  else {
-      this.message = {
-        type: 'danger',
-        text: 'Login failed'
+    this.authService.login(username, password).subscribe(
+      res => {
+        this.message = {
+          type: 'success',
+          text: 'Login successful'
+        };
+        this.router.navigate(['/home'])
+      }, error => {
+        console.log(error);
+        this.message = {
+          type: 'danger',
+          text: 'Login failed'
+        }
       }
-    }
+    );
   }
 }
