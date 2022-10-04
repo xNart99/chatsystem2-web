@@ -51,7 +51,14 @@ export class MembersManagerComponent implements OnInit {
   }
 
   onUserDelete(userId: string): void {
-    this.usersService.removeUser(userId);
-    this.groupService.onUserDeleted(userId);
+    this.usersService.removeUser(userId).subscribe(
+      res => {
+        this.usersService.loadUsers();
+      }, error => {
+        console.log(error);
+        
+      }
+    );
+    // this.groupService.onUserDeleted(userId);
   }
 }

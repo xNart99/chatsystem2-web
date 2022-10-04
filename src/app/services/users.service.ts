@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { User } from "../models/user.model";
 import { AuthService } from "./auth.service";
+import { HttpService } from "./http.service";
 import { StorageService } from "./storage.service";
 
 @Injectable({
@@ -13,7 +14,8 @@ export class UsersService {
 
   constructor(
     private authService: AuthService,
-    private storage: StorageService
+    private storage: StorageService,
+    private http: HttpService
   ) {
     this.loadUsers();
   }
@@ -29,15 +31,7 @@ export class UsersService {
     )
   }
 
-  removeUser(username: string): boolean {
-    let users = this.storage.get('users') || [];
-    users = users.filter((u: User) => u.username !== username);
-    try {
-      this.storage.set('users', users);
-      this.loadUsers();
-      return true;
-    } catch (error) {
-      return false;
-    }
+  removeUser(username: string): Observable<any> {
+    return this.http.delete('/users', {params: {username}});
   }
 }

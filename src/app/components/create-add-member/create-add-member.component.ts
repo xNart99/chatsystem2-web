@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { UsersService } from 'src/app/services/users.service';
 import { PasswordMatch } from 'src/app/validators/password-match.validator';
 
 @Component({
@@ -30,7 +31,8 @@ export class CreateAddMemberComponent implements OnInit {
   constructor(
     public modal: NgbActiveModal,
     private authService: AuthService,
-    private storageServie: StorageService
+    private storageServie: StorageService,
+    private userService: UsersService
   ) {
     this.registerForm = this.initRegisterForm();
     if (this.storageServie.get('role') === 'super') {
@@ -68,6 +70,7 @@ export class CreateAddMemberComponent implements OnInit {
         this.registerForm.controls['role'].setValue('member');
         this.message.text = 'Registration successful';
         this.message.type = 'success';
+        this.userService.loadUsers();
       }, error => {
         this.message.text = 'Username or email is already taken';
         this.message.type = 'danger';
