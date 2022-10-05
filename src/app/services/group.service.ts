@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { Channel } from "../models/channel.model";
 import { Group } from "../models/group.model";
 import { Message } from "../models/message.model";
 import { User } from "../models/user.model";
+import { HttpService } from "./http.service";
 import { StorageService } from "./storage.service";
 
 @Injectable({
@@ -13,7 +14,8 @@ export class GroupService {
   groupsSubject = new BehaviorSubject<Group[]>([]);
   groups$ = this.groupsSubject.asObservable();
   constructor(
-    private storage: StorageService
+    private storage: StorageService,
+    private http: HttpService
   ) {
     this.getGroups();
   }
@@ -23,19 +25,8 @@ export class GroupService {
     return groups?.find((g: Group) => g.id === id) || null;
   }
 
-  createGroup(group: Group): boolean {
-    const isGroupTaken = this.storage.get('groups')?.find((g: Group) => g.name === group.name);
-    if (isGroupTaken) {
-      return false;
-    }
-    if (!this.storage.get('groups')) {
-      this.storage.set('groups', [group]);
-      this.groupsSubject.next([group]);
-    } else {
-      this.storage.set('groups', [...this.storage.get('groups'), group]);
-      this.groupsSubject.next(this.storage.get('groups'));
-    }
-    return true;
+  createGroup(group: Group): Observable<any> {
+    return this.http.post('/groups', group);
   }
 
   updateGroup(group: Group): boolean {

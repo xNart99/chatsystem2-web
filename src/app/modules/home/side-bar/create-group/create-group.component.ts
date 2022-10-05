@@ -42,11 +42,13 @@ export class CreateGroupComponent implements OnInit {
       channels: [],
       read: []
     }
-    if (this.groupService.createGroup(newGroup)) {
-      this.activeModal.close();
-      this.message = '';
-    } else {
-      this.message = 'Group name is taken';
-    }
+    this.groupService.createGroup(newGroup).subscribe(
+      res => {
+        this.activeModal.close();
+        this.message = '';
+      }, error => {
+        this.message = 'Group name is taken';
+      }
+    );
   }
 }
