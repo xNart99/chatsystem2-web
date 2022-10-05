@@ -35,9 +35,22 @@ export class AddMemberComponent implements OnInit {
   onButtonClickHandle(member: User, addingStatus: boolean): void {
     if (this.group) {
       if (addingStatus) {
-        this.groupService.addMemberToGroup(this.group.id, member.username);
+        this.groupService.addMemberToGroup(this.group.id, member.username).subscribe(
+          res => {
+
+          }, error => {
+            console.log(error);
+          }
+        );
       } else {
-        this.groupService.removeMemberFromGroup(this.group.id, member.username);
+        this.groupService.removeMemberFromGroup(this.group.id, member.username).subscribe(
+          ress => {
+
+          }, error => {
+            console.log(error);
+            
+          }
+        );
       }
       this.afterButtonClicked.emit();
     } else {

@@ -27,8 +27,6 @@ export class GroupService {
   }
 
   getGroupById(id: string): Observable<Group> {
-    // const groups = this.storage.get('groups') || [];
-    // return groups?.find((g: Group) => g.id === id) || null;
     return this.http.get(`/groups/${id}`);
 
   }
@@ -37,56 +35,20 @@ export class GroupService {
     return this.http.post('/groups', group);
   }
 
-  updateGroup(group: Group): boolean {
-    const groups = this.storage.get('groups') || [];
-    let currentGroup = groups?.find((g: Group) => g.id === group.id);
-    currentGroup = group;
-    try {
-      this.storage.set('groups', groups);
-      this.groupsSubject.next(this.storage.get('groups'));
-      return true;
-    } catch (error) {
-      return false;
-    }
+  updateGroup(group: Group): Observable<any> {
+    return this.http.put('/groups', group);
   }
 
-  addMemberToGroup(groupId: string, memberUsername: string): boolean {
-    const groups = this.storage.get('groups') || [];
-    const group = groups?.find((g: Group) => g.id === groupId);
-    if (group.members?.some((m: User) => m.username === memberUsername)) {
-      return false;
-    }
-    group.members?.push(memberUsername);
-    try {
-      this.storage.set('groups', groups);
-      this.groupsSubject.next(this.storage.get('groups'));
-      return true;
-    } catch (error) {
-      return false;
-    }
+  addMemberToGroup(groupId: string, memberUsername: string): Observable<any> {
+    return this.http.post('/groups/add-member', {groupId, memberUsername});
   }
 
-  removeMemberFromGroup(groupId: string, memberUsername: string): boolean {
-    const groups = this.storage.get('groups') || [];
-    const group = groups?.find((g: Group) => g.id === groupId);
-    if (group.members?.find((username: string) => username === memberUsername)) {
-      console.log('member found');
-      group.members = group.members?.filter((username: string) => username !== memberUsername);
-      try {
-        this.storage.set('groups', groups);
-        this.groupsSubject.next(this.storage.get('groups'));
-        return true;
-      } catch (error) {
-        return false;
-      }
-    }
-    return false;
+  removeMemberFromGroup(groupId: string, memberUsername: string): Observable<any> {
+   return this.http.post('/groups/remove-member', {groupId, memberUsername});
   }
 
 
   getGroups(): Observable<Group[]> {
-    // this.groupsSubject.next(this.storage.get('groups'));
-    // return this.storage.get('groups') || [];
     return this.http.get('/groups');
 
   }
