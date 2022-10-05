@@ -32,13 +32,7 @@ export class MemberItemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.getUserByUsername(this.memberId).subscribe(
-      res => {
-        this.member = res;
-      }, error => {
-        console.log(error);
-      }
-    )
+    this.member = this.authService.getUserByUsername(this.memberId);
   }
 
   onButtonClickHandler(): void {

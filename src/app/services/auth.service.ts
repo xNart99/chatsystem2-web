@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { map, Observable, tap } from "rxjs";
+import { BehaviorSubject, map, Observable, tap } from "rxjs";
 import { User } from "../models/user.model";
 import { HttpService } from "./http.service";
 import { StorageService } from "./storage.service";
@@ -8,11 +8,18 @@ import { StorageService } from "./storage.service";
   providedIn: 'root'
 })
 export class AuthService {
+  usersSub = new BehaviorSubject<User[]>([]);
   constructor(
     private storage: StorageService,
     private http: HttpService
   ) {
-    
+    this.getAllUsers().subscribe(
+      res => {
+        this.usersSub.next(res);
+      },error => {
+
+      }
+    )
   }
 
   register(username: string, password: string, email: string, role: string): Observable<any> {
@@ -38,8 +45,10 @@ export class AuthService {
     return this.http.get('/users/profile');
   }
 
-  getUserByUsername(username: string): Observable<User> {
-    return this.http.get('/users/search', {params: {username}});
+  getUserByUsername(username: string): User {
+    const users = this.usersSub.getValue();
+    const user = users.filter(item => item.username === username);
+    return user[0];
   }
 
   logout(): void {

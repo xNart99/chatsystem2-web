@@ -44,7 +44,7 @@ export class AddMemberComponent implements OnInit {
         );
       } else {
         this.groupService.removeMemberFromGroup(this.group.id, member.username).subscribe(
-          ress => {
+          res => {
 
           }, error => {
             console.log(error);
@@ -55,9 +55,23 @@ export class AddMemberComponent implements OnInit {
       this.afterButtonClicked.emit();
     } else {
       if (addingStatus) {
-        this.groupService.addUserToChannel(this.groupId, this.channel!.id, member.username);
+        this.groupService.addUserToChannel(this.groupId, this.channel!.id, member.username).subscribe(
+          res => {
+
+          }, error => {
+            console.log(error);
+            
+          }
+        );
       } else {
-        this.groupService.removeUserFromChannel(this.groupId, this.channel!.id, member.username);
+        this.groupService.removeUserFromChannel(this.groupId, this.channel!.id, member.username).subscribe(
+          res => {
+
+          }, error => {
+            console.log(error);
+            
+          }
+        );
       }
       this.afterButtonClicked.emit();
     }

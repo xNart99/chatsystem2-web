@@ -53,63 +53,20 @@ export class GroupService {
 
   }
 
-  createChannel(groupId: string, channel: Channel): boolean {
-    const groups = this.storage.get('groups') || [];
-    const group = groups.find((g: Group) => g.id === groupId);
-    if (group.channels.some((c: Channel) => c.name === channel.name)) {
-      console.log('channel name is taken');
-      return false;
-    }
-    group.channels.push(channel);
-    try {
-      this.storage.set('groups', groups);
-      this.groupsSubject.next(this.storage.get('groups')); 
-      return true;
-    }
-    catch (error) {
-      return false;
-    }
+  createChannel(groupId: string, channel: Channel): Observable<any> {
+    return this.http.post(`/groups/${groupId}/channels`, channel);
   }
 
-  addUserToChannel(groupId: string, channelId: string, username: string): boolean {
-    const groups = this.storage.get('groups') || [];
-    const group = groups.find((g: Group) => g.id === groupId);
-    const channel = group.channels.find((c: Channel) => c.id === channelId);
-    if (channel.accessingUsers.some((m: string) => m === username)) {
-      console.log('user already in channel');
-      return false;
-    }
-    channel.accessingUsers.push(username);
-    try {
-      this.storage.set('groups', groups);
-      this.groupsSubject.next(this.storage.get('groups'));
-      return true;
-    } catch (error) {
-      return false;
-    }
+  addUserToChannel(groupId: string, channelId: string, username: string): Observable<any> {
+   return this.http.post(`/groups/${groupId}/channels/${channelId}/add-member`, {username});
   }
 
-  removeUserFromChannel(groupId: string, channelId: string, username: string): boolean {
-    const groups = this.storage.get('groups') || [];
-    const group = groups.find((g: Group) => g.id === groupId);
-    const channel = group.channels.find((c: Channel) => c.id === channelId);
-    if (channel.accessingUsers.some((m: string) => m === username)) {
-      channel.accessingUsers = channel.accessingUsers.filter((m: string) => m !== username);
-      try {
-        this.storage.set('groups', groups);
-        this.groupsSubject.next(this.storage.get('groups'));
-        return true;
-      } catch (error) {
-        return false;
-      }
-    }
-    return false;
+  removeUserFromChannel(groupId: string, channelId: string, username: string): Observable<any> {
+    return this.http.post(`/groups/${groupId}/channels/${channelId}/remove-member`, {username});
   }
 
-  getChannelById(groupId: string, channelId: string): Channel {
-    const groups = this.storage.get('groups') || [];
-    const group = groups.find((g: Group) => g.id === groupId) || null;
-    return group?.channels.find((c: Channel) => c.id === channelId) || null;
+  getChannelById(groupId: string, channelId: string): Observable<Channel> {
+    return this.http.get(`/groups/${groupId}/channels/${channelId}`);
   }
 
   sendMessageToChannel(groupId: string, channelId: string, message: Message, username: string): boolean {

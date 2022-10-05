@@ -46,12 +46,15 @@ export class CreateChannelComponent implements OnInit {
         read: [],
         messages: []
       }
-      if (this.groupService.createChannel(this.groupId, newChannel)) {
-        this.activeModal.close(newChannel);
-        this.message = '';
-      } else {
-        this.message = 'Group name is taken';
-      }
+      this.groupService.createChannel(this.groupId, newChannel).subscribe(
+        res => {
+          newChannel.id = res.channelId;
+          this.activeModal.close(newChannel);
+          this.message = '';
+        }, error => {
+          this.message = 'Group name is taken';
+        }
+      );
     }
   }
 }

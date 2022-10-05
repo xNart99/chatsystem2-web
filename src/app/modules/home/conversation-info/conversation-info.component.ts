@@ -80,7 +80,14 @@ export class ConversationInfoComponent implements OnInit {
       modal.componentInstance.existingMembers = this.conversation.accessingUsers;
       modal.componentInstance.groupId = this.groupId;
       modal.componentInstance.afterButtonClicked.subscribe(() => {
-        this.conversation = this.groupService.getChannelById(this.groupId,this.conversation.id);
+        this.groupService.getChannelById(this.groupId,this.conversation.id).subscribe(
+          res => {
+            this.conversation = res;
+          }, error => {
+            console.log(error);
+            
+          }
+        );
       });
     }
     modal.dismissed.subscribe(() => {

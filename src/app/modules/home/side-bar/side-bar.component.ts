@@ -76,10 +76,12 @@ export class SideBarComponent implements OnInit {
     this.selectedChannel = channel;
     this.groupService.getGroupById(this.selectedGroup.id).subscribe(
       res => {
+        console.log(res.members);
+        
         this.onChannelSelected.emit({
           channel,
           groupId: this.selectedGroup.id,
-          parentMembers: res.members || []
+          parentMembers: res.members
         });
       }
     )

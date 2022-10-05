@@ -24,7 +24,13 @@ export class ConversationComponent implements OnInit {
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
         this.url = val.url.split('/');
-        this.channel = this.groupService.getChannelById(this.url[this.url.length - 2], this.url[this.url.length - 1]);
+        this.groupService.getChannelById(this.url[this.url.length - 2], this.url[this.url.length - 1]).subscribe(
+          res => {
+            this.channel = res;
+          }, error => {
+            console.log(error);
+          }
+        );
       }
     });
     this.authService.getUser().subscribe(
