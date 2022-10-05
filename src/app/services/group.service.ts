@@ -17,7 +17,13 @@ export class GroupService {
     private storage: StorageService,
     private http: HttpService
   ) {
-    this.getGroups();
+    this.getGroups().subscribe(
+      res => {
+        this.groupsSubject.next(res);
+      }, error => {
+        console.log(error);
+      }
+    );
   }
 
   getGroupById(id: string): Group | null {
@@ -76,9 +82,11 @@ export class GroupService {
   }
 
 
-  getGroups(): Group[] {
-    this.groupsSubject.next(this.storage.get('groups'));
-    return this.storage.get('groups') || [];
+  getGroups(): Observable<Group[]> {
+    // this.groupsSubject.next(this.storage.get('groups'));
+    // return this.storage.get('groups') || [];
+    return this.http.get('/groups');
+
   }
 
   createChannel(groupId: string, channel: Channel): boolean {
