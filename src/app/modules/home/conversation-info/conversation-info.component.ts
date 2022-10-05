@@ -66,7 +66,14 @@ export class ConversationInfoComponent implements OnInit {
       modal.componentInstance.group = this.conversation;
       modal.componentInstance.existingMembers = this.conversation.members;
       modal.componentInstance.afterButtonClicked.subscribe(() => {
-        this.conversation = this.groupService.getGroupById(this.conversation.id);
+        this.groupService.getGroupById(this.conversation.id).subscribe(
+          res => {
+            this.conversation = res;
+          }, error => {
+            console.log(error);
+            
+          }
+        );
       });
     } else {
       modal.componentInstance.channel = this.conversation;
@@ -92,7 +99,14 @@ export class ConversationInfoComponent implements OnInit {
       }
     } else {
       if (this.groupService.deleteChannel(this.groupId, this.conversation.id)) {
-        this.onChannelDelete.emit(this.groupService.getGroupById(this.groupId) as Group);
+        this.groupService.getGroupById(this.groupId).subscribe(
+          res => {
+            this.onChannelDelete.emit(res);
+          }, error => {
+            console.log(error);
+            
+          }
+        );
       }
     }
   }

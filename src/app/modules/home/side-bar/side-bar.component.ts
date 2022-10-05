@@ -74,11 +74,16 @@ export class SideBarComponent implements OnInit {
 
   selectChannel(channel: Channel): void {
     this.selectedChannel = channel;
-    this.onChannelSelected.emit({
-      channel,
-      groupId: this.selectedGroup.id,
-      parentMembers: this.groupService.getGroupById(this.selectedGroup.id)?.members || []
-    });
+    this.groupService.getGroupById(this.selectedGroup.id).subscribe(
+      res => {
+        this.onChannelSelected.emit({
+          channel,
+          groupId: this.selectedGroup.id,
+          parentMembers: res.members || []
+        });
+      }
+    )
+    
   }
 
   checkPermission(): boolean {

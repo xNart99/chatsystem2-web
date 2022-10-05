@@ -26,9 +26,11 @@ export class GroupService {
     );
   }
 
-  getGroupById(id: string): Group | null {
-    const groups = this.storage.get('groups') || [];
-    return groups?.find((g: Group) => g.id === id) || null;
+  getGroupById(id: string): Observable<Group> {
+    // const groups = this.storage.get('groups') || [];
+    // return groups?.find((g: Group) => g.id === id) || null;
+    return this.http.get(`/groups/${id}`);
+
   }
 
   createGroup(group: Group): Observable<any> {
