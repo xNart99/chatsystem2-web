@@ -70,17 +70,6 @@ export class GroupService {
   }
 
   sendMessageToChannel(groupId: string, channelId: string, message: Message, username: string): Observable<any> {
-    // const groups = this.storage.get('groups') || [];
-    // const group = groups.find((g: Group) => g.id === groupId);
-    // const channel = group.channels.find((c: Channel) => c.id === channelId);
-    // channel.messages.push(message);
-    // try {
-    //   this.storage.set('groups', groups);
-    //   this.groupsSubject.next(this.storage.get('groups'));
-    //   return true;
-    // } catch (error) {
-    //   return false;
-    // }
     return this.http.post(`/groups/${groupId}/channels/${channelId}/send-message`, message);
   }
 

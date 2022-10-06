@@ -13,6 +13,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { MembersManagerComponent } from './members-manager/members-manager.component';
 import { MembersManagerInfoComponent } from './members-manager-info/members-manager-info.component';
 import { FormsModule } from '@angular/forms';
+import { SafePipe } from 'src/app/pipe/safe.pipe';
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { FormsModule } from '@angular/forms';
     ChatToolbarComponent,
     CreateGroupComponent,
     MembersManagerComponent,
-    MembersManagerInfoComponent,
+    MembersManagerInfoComponent
   ],
   imports: [
     CommonModule,

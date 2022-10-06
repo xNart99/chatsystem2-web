@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AddMemberComponent } from './add-member/add-member.component';
 import { CreateChannelComponent } from './create-channel/create-channel.component';
 import { ChatBubbleComponent } from './chat-bubble/chat-bubble.component';
+import { SafePipe } from "../pipe/safe.pipe";
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { ChatBubbleComponent } from './chat-bubble/chat-bubble.component';
     CreateAddMemberComponent,
     AddMemberComponent,
     CreateChannelComponent,
-    ChatBubbleComponent
+    ChatBubbleComponent,
+    SafePipe
   ],
   imports: [
     CommonModule,

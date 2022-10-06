@@ -25,14 +25,15 @@ export class MembersManagerComponent implements OnInit {
 
   ngOnInit(): void {
     this.usersService.users$.subscribe((users: User[]) => {
-      this.users = users;
+      console.log(users);
+      
+      this.users = this.usersService.getAllUser();
     });
     this.authService.getUser().subscribe(
       res => {
         this.user = res;
       },error => {
         console.log(error);
-        
       }
     );
   }
@@ -42,12 +43,11 @@ export class MembersManagerComponent implements OnInit {
       CreateAddMemberComponent,
       {
         centered: true,
+        // backdrop : 'static',
+        // keyboard : true
       }
     );
-    modal.closed.subscribe(() => {
-      console.log('works');
-      this.usersService.loadUsers();
-    })
+    modal. result.then(() => { console.log('When user closes'); }, () => {this.usersService.loadUsers()})
   }
 
   onUserDelete(userId: string): void {

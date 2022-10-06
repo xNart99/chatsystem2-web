@@ -20,9 +20,14 @@ export class UsersService {
     this.loadUsers();
   }
 
+  getAllUser() {
+    return this.usersSubject.getValue();
+  }
+
   loadUsers(): void {
     this.authService.getAllUsers().subscribe(
       res => {
+        console.log(res);
         this.usersSubject.next(res);
       }, error => {
         console.log(error);

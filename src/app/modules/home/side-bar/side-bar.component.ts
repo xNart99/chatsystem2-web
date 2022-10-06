@@ -7,6 +7,7 @@ import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { GroupService } from 'src/app/services/group.service';
+import { StorageService } from 'src/app/services/storage.service';
 import { CreateGroupComponent } from './create-group/create-group.component';
 
 @Component({
@@ -25,11 +26,13 @@ export class SideBarComponent implements OnInit {
   selectedChannel!: Channel;
   searchValue = '';
   type = 'group';
+  role!: string;
   constructor(
     private authService: AuthService,
     private modalService: NgbModal,
     private groupService: GroupService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +46,7 @@ export class SideBarComponent implements OnInit {
     this.groupService.groups$.subscribe((groups: Group[]) => {
       this.groups = groups;
     });
+    this.role = this.storageService.get('role');
   }
 
   logout(): void {
@@ -90,16 +94,16 @@ export class SideBarComponent implements OnInit {
 
   checkPermission(): boolean {
     if (this.type === 'group') {
-      return ['super', 'groupadmin'].includes(this.user.role);
+      return ['super', 'groupadmin'].includes(this.role);
     } else if (this.type === 'channel') {
-      return ['super', 'groupadmin', 'groupassis'].includes(this.user.role);
+      return ['super', 'groupadmin', 'groupassis'].includes(this.role);
     } else {
       return false;
     }
   }
 
   checkPermissionMM(): boolean {
-    return ['super', 'groupadmin'].includes(this.user.role); 
+    return ['super', 'groupadmin'].includes(this.role); 
   }
 
   onMemberManagerClick(): void {
@@ -108,12 +112,12 @@ export class SideBarComponent implements OnInit {
 
   checkUserPremisstion(data: any): boolean {
     if (this.type === 'group') {
-      if (this.user.role === 'super' || this.user.role === 'groupadmin') {
+      if (this.role === 'super' || this.role === 'groupadmin') {
         return true;
       }
       return data?.members.includes(this.user.username);
     } else if (this.type === 'channel') {
-      if (this.user.role === 'super' || this.user.role === 'groupadmin' || this.user.role === 'groupassis') {
+      if (this.role === 'super' || this.role === 'groupadmin' || this.role === 'groupassis') {
         return true;
       }
       return data?.accessingUsers.includes(this.user.username);

@@ -3,6 +3,7 @@ import { Channel } from 'src/app/models/channel.model';
 import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-group-bar',
@@ -15,9 +16,11 @@ export class GroupBarComponent implements OnInit {
   @Input() channel?: Channel;
   isRead = false;
   currentUser!: User;
+  username!: string;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private storageService: StorageService
   ) { }
 
   ngOnInit(): void {
@@ -29,10 +32,11 @@ export class GroupBarComponent implements OnInit {
         
       }
     );
+    this.username = this.storageService.get('username');
     if (this.group) {
-      this.isRead = this.group.read?.includes(this.currentUser.username);
+      this.isRead = this.group.read?.includes(this.username);
     } else if (this.channel) {
-      this.isRead = this.channel.read?.includes(this.currentUser.username);
+      this.isRead = this.channel.read?.includes(this.username);
     }
   }
 

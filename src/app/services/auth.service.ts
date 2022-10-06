@@ -27,9 +27,10 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post('/auth/login', {username, password}).pipe(tap(({ token, role }) => {
+    return this.http.post('/auth/login', {username, password}).pipe(tap(({ token, role, username }) => {
       this.storage.set('token', token);
       this.storage.set('role', role);
+      this.storage.set('username', username);
     }));
   }
 
