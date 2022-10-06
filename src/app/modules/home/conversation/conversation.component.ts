@@ -73,4 +73,20 @@ export class ConversationComponent implements OnInit {
       }
     );
   };
+  sendMessageFile(event: any): void {
+    const m: Message = {
+      createdAt: new Date().getTime(),
+      type: 'image',
+      from: this.user.username,
+    };
+    const selectedFiles = event.target.files;
+    const file = selectedFiles;
+    this.groupService.sendMessageTypeImageToChannel(this.url[this.url.length - 2], this.url[this.url.length - 1], file,m).subscribe(
+      res => {
+
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
 }

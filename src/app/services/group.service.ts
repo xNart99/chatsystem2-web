@@ -73,6 +73,15 @@ export class GroupService {
     return this.http.post(`/groups/${groupId}/channels/${channelId}/send-message`, message);
   }
 
+  sendMessageTypeImageToChannel(groupId: string, channelId: string, files: File[], message: Message): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', files[0], files[0].name);
+    formData.append('type', message.type);
+    formData.append('from', message.from);
+    formData.append('createdAt', message.createdAt.toString());
+    return this.http.post(`/groups/${groupId}/channels/${channelId}/send-message-file`, formData);
+  }
+
   onUserDeleted(username: string): Observable<any> {
    return this.http.post('/groups/delete-user', {username});
   }

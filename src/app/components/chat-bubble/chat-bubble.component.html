@@ -15,13 +15,19 @@
         {{ sender?.username }}
       </small>
       <div class="chat-container w-50 mt-2">
-        <span class="border px-3 py-2 rounded-5">
+        <span class="px-3 py-2 rounded-5" *ngIf="message.type === 'image'">
+          <img class="image-content" [src]="message.content | safe" alt="image">
+        </span>
+        <span class="border px-3 py-2 rounded-5" *ngIf="message.type === 'text'">
           {{ message.content }}
         </span>
       </div>
     </div>
     <div class="me-2" *ngIf="isYour">
-      <span class="border px-3 py-2 rounded-5">
+      <span class="px-3 py-2 rounded-5" *ngIf="message.type === 'image'">
+        <img class="image-content" [src]="message.content | safe" alt="image">
+      </span>
+      <span class="border px-3 py-2 rounded-5" *ngIf="message.type === 'text'">
         {{ message.content }}
       </span>
     </div>

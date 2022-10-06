@@ -1,7 +1,7 @@
 export interface Message {
-  id: string;
+  id?: string;
   createdAt: number;
   type: 'text' | 'image' | 'video';
-  content: string;
+  content?: string;
   from: string;
 }
