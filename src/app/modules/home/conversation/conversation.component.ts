@@ -54,9 +54,13 @@ export class ConversationComponent implements OnInit {
       content: this.message,
       from: this.user.username
     };
-    if (this.groupService.sendMessageToChannel(this.url[this.url.length - 2], this.url[this.url.length - 1], m, this.user.username)) {
-      this.channel.messages.push(m);
-      this.message = '';
-    }
+    this.groupService.sendMessageToChannel(this.url[this.url.length - 2], this.url[this.url.length - 1], m, this.user.username).subscribe(
+      res => {
+        this.channel.messages.push(m);
+        this.message = '';
+      }, error => {
+        console.log(error);
+      }
+    );
   };
 }

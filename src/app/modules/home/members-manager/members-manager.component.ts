@@ -59,6 +59,13 @@ export class MembersManagerComponent implements OnInit {
         
       }
     );
-    // this.groupService.onUserDeleted(userId);
+    this.groupService.onUserDeleted(userId).subscribe(
+      res => {
+
+      }, error => {
+        console.log(error);
+        
+      }
+    );
   }
 }

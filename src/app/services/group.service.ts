@@ -69,60 +69,30 @@ export class GroupService {
     return this.http.get(`/groups/${groupId}/channels/${channelId}`);
   }
 
-  sendMessageToChannel(groupId: string, channelId: string, message: Message, username: string): boolean {
-    const groups = this.storage.get('groups') || [];
-    const group = groups.find((g: Group) => g.id === groupId);
-    const channel = group.channels.find((c: Channel) => c.id === channelId);
-    channel.messages.push(message);
-    try {
-      this.storage.set('groups', groups);
-      this.groupsSubject.next(this.storage.get('groups'));
-      return true;
-    } catch (error) {
-      return false;
-    }
+  sendMessageToChannel(groupId: string, channelId: string, message: Message, username: string): Observable<any> {
+    // const groups = this.storage.get('groups') || [];
+    // const group = groups.find((g: Group) => g.id === groupId);
+    // const channel = group.channels.find((c: Channel) => c.id === channelId);
+    // channel.messages.push(message);
+    // try {
+    //   this.storage.set('groups', groups);
+    //   this.groupsSubject.next(this.storage.get('groups'));
+    //   return true;
+    // } catch (error) {
+    //   return false;
+    // }
+    return this.http.post(`/groups/${groupId}/channels/${channelId}/send-message`, message);
   }
 
-  onUserDeleted(username: string): boolean {
-    const groups = this.storage.get('groups') || [];
-    groups.forEach((g: Group) => {
-      g.members = g.members.filter((m: string) => m !== username);
-      g.channels.forEach((c: Channel) => {
-        c.accessingUsers = c.accessingUsers.filter((m: string) => m !== username);
-        c.messages = c.messages.filter((m: Message) => m.from !== username);
-      });
-    });
-    try {
-      this.storage.set('groups', groups);
-      this.groupsSubject.next(this.storage.get('groups'));
-      return true;
-    } catch (error) {
-      return false;
-    }
+  onUserDeleted(username: string): Observable<any> {
+   return this.http.post('/groups/delete-user', {username});
   }
 
-  deleteChannel(groupId: string, channelId: string): boolean {
-    const groups = this.storage.get('groups') || [];
-    const group = groups.find((g: Group) => g.id === groupId);
-    group.channels = group.channels.filter((c: Channel) => c.id !== channelId);
-    try {
-      this.storage.set('groups', groups);
-      this.groupsSubject.next(this.storage.get('groups'));
-      return true;
-    } catch (error) {
-      return false;
-    }
+  deleteChannel(groupId: string, channelId: string): Observable<any> {
+    return this.http.delete(`/groups/${groupId}/channels/${channelId}`);
   }
 
-  deleteGroup(groupId: string): boolean {
-    let groups = this.storage.get('groups') || [];
-    groups = groups.filter((g: Group) => g.id !== groupId);
-    try {
-      this.storage.set('groups', groups);
-      this.groupsSubject.next(this.storage.get('groups'));
-      return true;
-    } catch (error) {
-      return false;
-    }
+  deleteGroup(groupId: string): Observable<any> {
+    return this.http.delete(`/groups/${groupId}`);
   }
 }

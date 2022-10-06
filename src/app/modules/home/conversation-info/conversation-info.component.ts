@@ -100,21 +100,31 @@ export class ConversationInfoComponent implements OnInit {
 
   deleteGroupChannel(): void {
     if (this.conversation.members) {
-      if (this.groupService.deleteGroup(this.conversation.id)) {
-        this.conversation = null;
-        this.onGroupDelete.emit();
-      }
+      this.groupService.deleteGroup(this.conversation.id).subscribe(
+        res => {
+          this.conversation = null;
+          this.onGroupDelete.emit();
+        }, error => {
+          console.log(error);
+          
+        }
+      );
     } else {
-      if (this.groupService.deleteChannel(this.groupId, this.conversation.id)) {
-        this.groupService.getGroupById(this.groupId).subscribe(
-          res => {
-            this.onChannelDelete.emit(res);
-          }, error => {
-            console.log(error);
-            
-          }
-        );
-      }
+      this.groupService.deleteChannel(this.groupId, this.conversation.id).subscribe(
+        res => {
+          this.groupService.getGroupById(this.groupId).subscribe(
+            res => {
+              this.onChannelDelete.emit(res);
+            }, error => {
+              console.log(error);
+              
+            }
+          );
+        }, error => {
+          console.log(error);
+
+        }
+      )
     }
   }
 }
