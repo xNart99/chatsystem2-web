@@ -7,6 +7,7 @@ import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { GroupService } from 'src/app/services/group.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { CreateGroupComponent } from './create-group/create-group.component';
 
@@ -32,7 +33,8 @@ export class SideBarComponent implements OnInit {
     private modalService: NgbModal,
     private groupService: GroupService,
     private router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private socketService: SocketService
   ) { }
 
   ngOnInit(): void {
@@ -78,10 +80,9 @@ export class SideBarComponent implements OnInit {
 
   selectChannel(channel: Channel): void {
     this.selectedChannel = channel;
+    this.socketService.joinChannel(channel.id);
     this.groupService.getGroupById(this.selectedGroup.id).subscribe(
       res => {
-        console.log(res.members);
-        
         this.onChannelSelected.emit({
           channel,
           groupId: this.selectedGroup.id,

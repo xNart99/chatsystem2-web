@@ -6,7 +6,7 @@
           account_circle
         </span>
         <ng-template #profilePic>
-          <img [src]="sender?.profileImage" alt="profile-pic" class="profile-pic">
+          <img [src]="sender?.profileImage | safe" alt="profile-pic" class="profile-pic">
         </ng-template>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { Message } from 'src/app/models/message.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { GroupService } from 'src/app/services/group.service';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-conversation',
@@ -19,7 +20,8 @@ export class ConversationComponent implements OnInit {
   constructor(
     private router: Router,
     private groupService: GroupService,
-    private authService: AuthService
+    private authService: AuthService,
+    private socketService: SocketService
   ) {
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
@@ -44,6 +46,14 @@ export class ConversationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.socketService.getNewMessage().subscribe(
+      res => {
+        this.channel.messages.push(res);
+      }, error => {
+        console.log(error);
+      }
+    )
+
   }
 
   sendMessage(): void {
@@ -56,7 +66,7 @@ export class ConversationComponent implements OnInit {
     };
     this.groupService.sendMessageToChannel(this.url[this.url.length - 2], this.url[this.url.length - 1], m, this.user.username).subscribe(
       res => {
-        this.channel.messages.push(m);
+        // this.channel.messages.push(m);
         this.message = '';
       }, error => {
         console.log(error);
