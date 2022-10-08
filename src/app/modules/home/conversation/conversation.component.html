@@ -6,8 +6,13 @@
     <p class="fs-5 text-secondary">Please select a channel!</p>
   </div>
   <div class="w-100 h-100 d-flex flex-column" *ngIf="channel">
-    <div class="w-100 d-flex align-items-center p-3 fs-4 border-bottom">
-      {{ channel?.name }}
+    <div class="w-100 d-flex align-items-center p-3 fs-4 border-bottom justify-content-between">
+      <p>{{ channel?.name }}</p>
+      <button class="btn btn-primary" (click)="openCallVideo()">
+        <span class="material-symbols-outlined">
+          call
+        </span>
+      </button>
     </div>
     <div class="w-100 chat-log flex-grow-1 overflow-auto border-bottom">
       <app-chat-bubble *ngFor="let message of channel.messages" [message]="message" [isYour]="message.from === user?.username"></app-chat-bubble>

@@ -7,6 +7,8 @@ import { AddMemberComponent } from './add-member/add-member.component';
 import { CreateChannelComponent } from './create-channel/create-channel.component';
 import { ChatBubbleComponent } from './chat-bubble/chat-bubble.component';
 import { SafePipe } from "../pipe/safe.pipe";
+import { ModalNotificationCallComponent } from './modal-notification-call/modal-notification-call.component';
+import { ModalCallVideoComponent } from './modal-call-video/modal-call-video.component';
 
 @NgModule({
   declarations: [
@@ -15,12 +17,14 @@ import { SafePipe } from "../pipe/safe.pipe";
     AddMemberComponent,
     CreateChannelComponent,
     ChatBubbleComponent,
-    SafePipe
+    SafePipe,
+    ModalNotificationCallComponent,
+    ModalCallVideoComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
     MemberItemComponent,

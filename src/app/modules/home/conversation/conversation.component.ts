@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalCallVideoComponent } from 'src/app/components/modal-call-video/modal-call-video.component';
+import { ModalNotificationCallComponent } from 'src/app/components/modal-notification-call/modal-notification-call.component';
 import { Channel } from 'src/app/models/channel.model';
 import { Message } from 'src/app/models/message.model';
 import { User } from 'src/app/models/user.model';
@@ -21,7 +24,8 @@ export class ConversationComponent implements OnInit {
     private router: Router,
     private groupService: GroupService,
     private authService: AuthService,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private modalController: NgbModal,
   ) {
     router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
@@ -49,6 +53,14 @@ export class ConversationComponent implements OnInit {
     this.socketService.getNewMessage().subscribe(
       res => {
         this.channel.messages.push(res);
+      }, error => {
+        console.log(error);
+      }
+    );
+    this.socketService.getNotificationCallVideo().subscribe(
+      res => {
+        console.log(res);
+        this.openNotificationVideoCall();
       }, error => {
         console.log(error);
       }
@@ -88,5 +100,29 @@ export class ConversationComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+  openCallVideo(): void {
+    const modal = this.modalController.open(
+      ModalCallVideoComponent,
+      {
+        centered: true,
+        size: 'xl'
+      }
+    );
+    modal.componentInstance.channel = this.channel;
+    modal. result.then(() => { console.log('When user closes'); }, () => {console.log('click outside');
+    })
+  }
+  openNotificationVideoCall(): void {
+    const modal = this.modalController.open(
+      ModalNotificationCallComponent,
+      {
+        centered: true,
+        size: 'md'
+      }
+    );
+    modal.componentInstance.channel = this.channel;
+    modal. result.then(() => { console.log('When user closes'); }, () => {console.log('click outside');
+    })
   }
 }
