@@ -4,6 +4,7 @@ import { from, mergeMap, Subject, takeUntil, tap } from 'rxjs';
 import { Peer } from "peerjs";
 import { SocketService } from 'src/app/services/socket.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-modal-call-video',
   templateUrl: './modal-call-video.component.html',
@@ -21,7 +22,10 @@ export class ModalCallVideoComponent implements OnInit, OnDestroy {
   peers: {
     [id: string]: any;
   } = {};
-  constructor(private socketService: SocketService, private storageService: StorageService) { }
+  constructor(private socketService: SocketService, 
+              private storageService: StorageService,
+              public activeModal: NgbActiveModal,
+              ) { }
 
   ngOnInit(): void {
     console.log(this.channel);
@@ -36,19 +40,31 @@ export class ModalCallVideoComponent implements OnInit, OnDestroy {
         this.connectToNewUser(callNew); 
       }
     )
+    this.socketService.getUserEndCall().subscribe(
+      res => {
+        this.peers = {};
+        this.remoteStreams = [];
+        this.remoteNames = [];
+        const tracks = this.localStream.getTracks();
+        tracks.forEach((track) => {
+          track.stop();
+        });
+        this.activeModal.close();
+      }, error => {
+        console.log(error);
+        
+      }
+    )
   }
 
   connectToNewUser(call: any) {
-    // console.log(call.peer);
-    // // this.a = call.peer;
-    // console.log("sdsdds");
-    console.log('dsdsdd');
-    
     call.on('stream', (stream: MediaStream) => {
       this.remoteStreams.push(stream);
       this.peers[call.peer] = call;
+      console.log(this.remoteStreams);
+      
       this.remoteNames = Object.keys(this.peers);
-      console.log(this.remoteNames);
+      // console.log(this.remoteNames);
     });
     call.on('close', () => {
       this.peers[call.peer].close();
@@ -81,16 +97,18 @@ export class ModalCallVideoComponent implements OnInit, OnDestroy {
       });
 
   }
-  endCall():void {
-    // this.peers['212212121'].close();
-    const tracks = this.localStream.getTracks();
 
+  ngOnDestroy() {
+    this.end$.next(1);
+  }
+
+  endCall():void {
+    this.socketService.endCallVideo(this.name, this.channel.id);
+    const tracks = this.localStream.getTracks();
     tracks.forEach((track) => {
       track.stop();
     });
-  }
-  ngOnDestroy() {
-    this.end$.next(1);
+    this.activeModal.close();
   }
 
 }

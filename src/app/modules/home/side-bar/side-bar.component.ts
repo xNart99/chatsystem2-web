@@ -28,6 +28,7 @@ export class SideBarComponent implements OnInit {
   searchValue = '';
   type = 'group';
   role!: string;
+  username!: string;
   constructor(
     private authService: AuthService,
     private modalService: NgbModal,
@@ -45,6 +46,7 @@ export class SideBarComponent implements OnInit {
         console.log(error);
       }
     );
+    this.username = this.storageService.get('username');
     this.groupService.groups$.subscribe((groups: Group[]) => {
       this.groups = groups;
     });
@@ -80,7 +82,12 @@ export class SideBarComponent implements OnInit {
 
   selectChannel(channel: Channel): void {
     this.selectedChannel = channel;
+    const channelOld = this.storageService.get('channelOld');
+    if(channelOld){
+      this.socketService.joinChannel(channel.id, channelOld);
+    }
     this.socketService.joinChannel(channel.id);
+    this.storageService.set('channelOld', channel.id);
     this.groupService.getGroupById(this.selectedGroup.id).subscribe(
       res => {
         this.onChannelSelected.emit({
@@ -116,12 +123,12 @@ export class SideBarComponent implements OnInit {
       if (this.role === 'super' || this.role === 'groupadmin') {
         return true;
       }
-      return data?.members.includes(this.user.username);
+      return data?.members.includes(this.username);
     } else if (this.type === 'channel') {
       if (this.role === 'super' || this.role === 'groupadmin' || this.role === 'groupassis') {
         return true;
       }
-      return data?.accessingUsers.includes(this.user.username);
+      return data?.accessingUsers.includes(this.username);
     }
     return false;
   }

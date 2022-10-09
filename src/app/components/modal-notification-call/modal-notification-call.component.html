@@ -1,18 +1,18 @@
 <div class="notification-call">
    <div class="p-3 w-100">
         <div class="name-group">
-            Ten nhom
+            {{channel.name}}
         </div>
         <div>
             <p class="text-content">Video calling on channels</p>
         </div>
         <div class="d-flex justify-content-between btn-action">
-            <button class="btn btn-danger ">
+            <button class="btn btn-danger " (click)="activeModal.close()" #close>
                 <span class="material-symbols-outlined">
                     call_end
                 </span>
             </button>
-            <button class="btn btn-light" (click)="applyVideoCall()">
+            <button class="btn btn-light" (click)="close.click();applyVideoCall()">
                 <span class="material-symbols-outlined">
                     videocam
                 </span>

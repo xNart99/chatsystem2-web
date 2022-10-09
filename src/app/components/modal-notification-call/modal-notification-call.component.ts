@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SocketService } from 'src/app/services/socket.service';
 import { ModalCallVideoComponent } from '../modal-call-video/modal-call-video.component';
 
@@ -10,12 +10,14 @@ import { ModalCallVideoComponent } from '../modal-call-video/modal-call-video.co
 })
 export class ModalNotificationCallComponent implements OnInit {
   @Input() channel: any;
-  constructor(private modalController: NgbModal, private socketService: SocketService) { }
+  constructor(private modalController: NgbModal, private socketService: SocketService, public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
   }
 
   applyVideoCall() {
+    // document.getElementById('a')?.click();
+    this.activeModal.dismiss();
     const modal = this.modalController.open(
       ModalCallVideoComponent,
         {
@@ -24,7 +26,7 @@ export class ModalNotificationCallComponent implements OnInit {
         }
       );
       modal.componentInstance.channel = this.channel;
-      modal. result.then(() => { console.log('When user closes'); }, () => {console.log('click outside');})
+      // modal. result.then(() => { console.log('When user closes'); }, () => {console.log('click outside');});
   }
   
 

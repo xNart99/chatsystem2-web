@@ -13,8 +13,8 @@ export class SocketService {
       this.socket = io(this.url, {transports: ['websocket', 'polling', 'flashsocket']});
     }
 
-    joinChannel(channelId: string)  {
-        this.socket.emit('join', channelId);
+    joinChannel(channelId: string, channelOld?: string)  {
+        this.socket.emit('join', {channelId, channelOld});
     }
 
     getNewMessage(): Observable<any>{
@@ -52,5 +52,20 @@ export class SocketService {
           this.socket.disconnect();
         };
       });
+    }
+
+    getUserEndCall(): Observable<any> {
+      return new Observable<any>(observer => {
+        this.socket.on('user-end-call', (data) => {
+          observer.next(data);
+        });
+        return () => {
+          this.socket.disconnect();
+        };
+      });
+    }
+
+    endCallVideo(username: string, channelId: string) {
+      this.socket.emit('leave', {username, channelId});
     }
 }
