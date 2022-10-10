@@ -47,6 +47,13 @@ export class SideBarComponent implements OnInit {
       }
     );
     this.username = this.storageService.get('username');
+    this.socketService.getUpdateToGroups().subscribe(
+      res => {
+        this.groupService.loadGroups();
+      }, error => {
+        console.log(error);
+      }
+    )
     this.groupService.groups$.subscribe((groups: Group[]) => {
       this.groups = groups;
     });

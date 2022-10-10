@@ -68,4 +68,15 @@ export class SocketService {
     endCallVideo(username: string, channelId: string) {
       this.socket.emit('leave', {username, channelId});
     }
+
+    getUpdateToGroups(): Observable<any> {
+      return new Observable<any>(observer => {
+        this.socket.on('add-member-new-group-channel', (data) => {
+          observer.next(data);
+        });
+        return () => {
+          this.socket.disconnect();
+        };
+      });
+    }
 }

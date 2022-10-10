@@ -17,6 +17,16 @@ export class GroupService {
     private storage: StorageService,
     private http: HttpService
   ) {
+    // this.getGroups().subscribe(
+    //   res => {
+    //     this.groupsSubject.next(res);
+    //   }, error => {
+    //     console.log(error);
+    //   }
+    // );
+    this.loadGroups();
+  }
+  loadGroups() {
     this.getGroups().subscribe(
       res => {
         this.groupsSubject.next(res);
