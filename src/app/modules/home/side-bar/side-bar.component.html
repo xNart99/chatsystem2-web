@@ -2,7 +2,7 @@
   <div class="user-bar bg-secondary d-flex justify-content-between">
     <div class="user-info d-flex align-items-center">
       <div class="user-profile-pic h-100 d-flex align-items-center ms-2 me-2">
-        <img [src]="'../../../../assets/default-profile-icon-24.jpeg'" [alt]="user?.username">
+        <img [src]="user?.profileImage" [alt]="user?.username">
       </div>
       <div class="w-100 h-100">
         <div class="username me-2 text-white">{{ user?.username }}</div>

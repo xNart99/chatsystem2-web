@@ -79,4 +79,33 @@ export class SocketService {
         };
       });
     }
+
+    sendUsernameAdd(username: string) {
+      this.socket.emit('add-user',username);
+    }
+
+    getUsernameAdd(): Observable<any> {
+      return new Observable<any>(observer => {
+        this.socket.on('add-user-to-group-channel', (data) => {
+          observer.next(data);
+        });
+        return () => {
+          this.socket.disconnect();
+        };
+      });
+    }
+
+    sendUsernameRemove(username: string) {
+      this.socket.emit('remove-user',username);
+    }
+    getUsernameRemove(): Observable<any> {
+      return new Observable<any>(observer => {
+        this.socket.on('remove-user-to-group-channel', (data) => {
+          observer.next(data);
+        });
+        return () => {
+          this.socket.disconnect();
+        };
+      });
+    }
 }

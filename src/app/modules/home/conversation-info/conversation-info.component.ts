@@ -6,7 +6,7 @@ import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { GroupService } from 'src/app/services/group.service';
-
+import { SocketService } from 'src/app/services/socket.service';
 @Component({
   selector: 'app-conversation-info',
   templateUrl: './conversation-info.component.html',
@@ -26,6 +26,7 @@ export class ConversationInfoComponent implements OnInit {
     private authService: AuthService,
     private modalService: NgbModal,
     private groupService: GroupService,
+    private socketService: SocketService,
     private router: Router
   ) { }
 
@@ -38,6 +39,31 @@ export class ConversationInfoComponent implements OnInit {
         
       }
     );
+    this.socketService.getUsernameAdd().subscribe(
+      res => {
+        if (this.conversation.members) {
+          this.conversation.members.push(res.username);
+        }else {
+          this.conversation.accessingUsers.push(res.username);
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
+    this.socketService.getUsernameRemove().subscribe(
+      res => {
+        console.log(res);
+        
+        if (this.conversation.members) {
+          this.conversation.members = this.conversation.members.filter((item: any) => item !== res.username);
+        }else {
+          this.conversation.accessingUsers = this.conversation.accessingUsers.filter((item: any) => item !== res.username);
+        }
+      }, error => {
+        console.log(error);
+        
+      }
+    )
   }
 
   checkPermission(): void {

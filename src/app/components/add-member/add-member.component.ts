@@ -4,6 +4,7 @@ import { Channel } from 'src/app/models/channel.model';
 import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
 import { GroupService } from 'src/app/services/group.service';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-add-member',
@@ -22,6 +23,7 @@ export class AddMemberComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private groupService: GroupService,
+    private sockerService: SocketService
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class AddMemberComponent implements OnInit {
       if (addingStatus) {
         this.groupService.addMemberToGroup(this.group.id, member.username).subscribe(
           res => {
-
+            this.sockerService.sendUsernameAdd(member.username);
           }, error => {
             console.log(error);
           }
@@ -45,7 +47,7 @@ export class AddMemberComponent implements OnInit {
       } else {
         this.groupService.removeMemberFromGroup(this.group.id, member.username).subscribe(
           res => {
-
+            this.sockerService.sendUsernameRemove(member.username);
           }, error => {
             console.log(error);
             
@@ -57,16 +59,15 @@ export class AddMemberComponent implements OnInit {
       if (addingStatus) {
         this.groupService.addUserToChannel(this.groupId, this.channel!.id, member.username).subscribe(
           res => {
-
+            this.sockerService.sendUsernameAdd(member.username);
           }, error => {
             console.log(error);
-            
           }
         );
       } else {
         this.groupService.removeUserFromChannel(this.groupId, this.channel!.id, member.username).subscribe(
           res => {
-
+            this.sockerService.sendUsernameRemove(member.username);
           }, error => {
             console.log(error);
             

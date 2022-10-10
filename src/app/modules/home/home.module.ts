@@ -26,13 +26,13 @@ import { SafePipe } from 'src/app/pipe/safe.pipe';
     ChatToolbarComponent,
     CreateGroupComponent,
     MembersManagerComponent,
-    MembersManagerInfoComponent
+    MembersManagerInfoComponent,
   ],
   imports: [
     CommonModule,
     HomeRoutingModule,
     ComponentsModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class HomeModule { }
