@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateChannelComponent } from 'src/app/components/create-channel/create-channel.component';
+import { EditProfileComponent } from 'src/app/components/edit-profile/edit-profile.component';
 import { Channel } from 'src/app/models/channel.model';
 import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
@@ -39,13 +40,7 @@ export class SideBarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authService.getUser().subscribe(
-      res => {
-        this.user = res;
-      },error => {
-        console.log(error);
-      }
-    );
+    this.loadUser();
     this.username = this.storageService.get('username');
     this.socketService.getUpdateToGroups().subscribe(
       res => {
@@ -58,6 +53,15 @@ export class SideBarComponent implements OnInit {
       this.groups = groups;
     });
     this.role = this.storageService.get('role');
+  }
+  loadUser(): void {
+    this.authService.getUser().subscribe(
+      res => {
+        this.user = res;
+      },error => {
+        console.log(error);
+      }
+    );
   }
 
   logout(): void {
@@ -138,5 +142,16 @@ export class SideBarComponent implements OnInit {
       return data?.accessingUsers.includes(this.username);
     }
     return false;
+  }
+
+  openEditProfile(): void {
+    const modal = this.modalService.open(EditProfileComponent, {
+      centered: true
+    });
+
+    modal.result.then(() => { this.loadUser(); }, () => {
+      this.loadUser();
+    })
+    
   }
 }

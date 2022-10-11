@@ -9,6 +9,7 @@ import { ChatBubbleComponent } from './chat-bubble/chat-bubble.component';
 import { SafePipe } from "../pipe/safe.pipe";
 import { ModalNotificationCallComponent } from './modal-notification-call/modal-notification-call.component';
 import { ModalCallVideoComponent } from './modal-call-video/modal-call-video.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ModalCallVideoComponent } from './modal-call-video/modal-call-video.com
     SafePipe,
     ModalNotificationCallComponent,
     ModalCallVideoComponent,
+    EditProfileComponent,
   ],
   imports: [
     CommonModule,

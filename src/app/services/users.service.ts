@@ -39,4 +39,12 @@ export class UsersService {
   removeUser(username: string): Observable<any> {
     return this.http.delete('/users', {params: {username}});
   }
+
+  updateProfile(email: string, file: File, username: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('email', email);
+    formData.append('username', username);
+    return this.http.put('/users/profile', formData);
+  }
 }
