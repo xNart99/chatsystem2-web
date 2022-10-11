@@ -9,8 +9,8 @@
     <div class="w-100 d-flex align-items-center p-3 fs-4 border-bottom justify-content-between">
       <p>{{ channel?.name }}</p>
       <button class="btn btn-primary" (click)="openCallVideo()">
-        <span class="material-symbols-outlined">
-          call
+        <span class="material-symbols-rounded pt-1">
+          videocam
         </span>
       </button>
     </div>
@@ -28,9 +28,13 @@
           (change)="sendMessageFile($event)"
         />
         <button class="btn btn-outline-primary ms-2s" style="margin-left: 5px;" (click)="file.click()">
-          <i class="material-symbols-outlined" style="font-weight: bold; font-size: 13px;">image</i>
+          <i class="material-symbols-rounded" style="font-weight: bold; font-size: 13px;">image</i>
         </button>
-        <button type="submit" class="btn btn-primary ms-2" (click)="sendMessage()">Send</button>
+        <button type="submit" class="btn btn-primary ms-2" (click)="sendMessage()">
+          <span class="material-symbols-rounded" style="font-weight: bold; font-size: 13px;">
+            send
+          </span>
+        </button>
       </div>
     </div>
   </div>

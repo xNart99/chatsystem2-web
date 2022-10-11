@@ -1,52 +1,44 @@
-<div class="video-call">
-    <div class="name-group">
-        {{channel.name}}
-    </div>
-    <div>
-      <div class="row justify-content-center"  *ngFor="let stream of remoteStreams; let i = index">
-        <div class="video-item col-4">
-          <video
-            id="me"
-            height="190"
-            width="257"
-            [srcObject]="stream"
-            autoplay
-            muted
-          ></video>
-          <div class="user-name-remote">{{ name }}</div>
+<div class="video-call overflow-hidden">
+  <div class="name-group h3 position-absolute w-100 text-center p-3 {{ remoteStreams.length > 0 ? 'text-white' : '' }}" style="z-index: 1000">
+    Calling {{channel.name}}
+  </div>
+  <div>
+    <div class="row justify-content-center" *ngFor="let stream of remoteStreams; let i = index">
+      <div class="video-item col">
+        <div class="position-relative w-100 d-flex justify-content-center">
+          <video id="me" height="{{ remoteStreams.length > 2 ? 200 : 400 }}"
+            class="remoteStreams.length > 1 ? 'w-50' : 'w-100'" [srcObject]="stream" autoplay muted></video>
+          <div class="user-name-remote position-absolute bottom-0 start-0 text-white {{remoteStreams.length > 1 ? 'p-3' : 'p-5'}}">{{
+            name }}</div>
         </div>
       </div>
-      </div>
-      <div class="d-flex justify-content-between">
-        <div class="d-flex align-items-end btn-action">
-          <button class="btn btn-secondary btn-action-item">
-            <span class="material-symbols-outlined">
+    </div>
+  </div>
+  <div class="d-flex justify-content-between w-100">
+    <div class="d-flex align-items-end btn-action justify-content-center w-100 position-absolute bottom-0 pb-3"
+      style="z-index: 1000;">
+      <!-- <button class="btn btn-secondary btn-action-item">
+                    <span class="material-symbols-rounded pt-2">
               keyboard_voice
             </span>
-          </button>
-          <button class="btn btn-danger btn-action-item" (click)="endCall()">
-            <span class="material-symbols-outlined">
-              call_end
-            </span>
-          </button>
-          <button class="btn btn-light btn-action-item">
-            <span class="material-symbols-outlined">
-              videocam
-            </span>
-          </button>
-        </div>
-        <div class="video-card-local" *ngIf="localStream">
-          <!-- <div class="user-name">{{ name }}</div> -->
-          <div class="video-item-local">
-              <video
-                id="me"
-                height="190"
-                width="257"
-                [srcObject]="localStream"
-                autoplay
-                muted
-            ></video>
-          </div>
-        </div>
+        </button> -->
+      <button class="btn btn-danger btn-action-item" (click)="endCall()">
+        <span class="material-symbols-rounded pt-2">
+          call_end
+        </span>
+      </button>
+      <!-- <button class="btn btn-light btn-action-item">
+                                            <span class="material-symbols-rounded pt-2">
+                                              videocam
+                                            </span>
+        </button> -->
+    </div>
+    <div class="video-card-local position-absolute bottom-0 end-0 pe-2" *ngIf="localStream">
+      <!-- <div class="user-name">{{ name }}</div> -->
+      <div class="video-item-local">
+        <video id="me" height="150" width="195" class="my-video" [srcObject]="localStream" autoplay muted
+          class="rounded-4"></video>
       </div>
+    </div>
   </div>
+</div>

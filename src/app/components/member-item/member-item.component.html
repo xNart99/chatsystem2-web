@@ -7,7 +7,9 @@
           account_circle
         </span>
         <ng-template #profilePic>
-          <img [src]="member?.profileImage | safe" alt="profile-pic" class="profile-pic">
+          <img
+            [src]="member?.profileImage || 'https://res.cloudinary.com/awi-ln/image/upload/v1665074475/hinh-anh-avatar-de-thuong_g59cqn.jpg' | safe"
+            alt="profile-pic" class="profile-pic">
         </ng-template>
       </div>
       <div class="member-name ms-2 text-dark">
@@ -19,7 +21,7 @@
       <div class="member-role align-items-center d-flex mx-3">
         <span
           class="badge {{ member?.role === 'super' ? 'bg-warning' : (member?.role === 'groupadmin' ? 'bg-primary' : member?.role === 'groupassis' ? 'bg-info' : 'bg-dark') }}">{{
-          member.role || 'n/a'}}</span>
+          member?.role || 'n/a'}}</span>
       </div>
       <div class="member-btn-action align-items-center d-flex me-2" *ngIf="addingStatus != null">
         <button (click)="onButtonClickHandler()"

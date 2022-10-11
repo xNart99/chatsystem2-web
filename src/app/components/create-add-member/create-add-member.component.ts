@@ -70,6 +70,7 @@ export class CreateAddMemberComponent implements OnInit {
         this.registerForm.controls['role'].setValue('member');
         this.message.text = 'Registration successful';
         this.message.type = 'success';
+        this.modal.dismiss();
       }, error => {
         this.message.text = 'Username or email is already taken';
         this.message.type = 'danger';
