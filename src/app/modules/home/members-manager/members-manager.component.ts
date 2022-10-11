@@ -25,8 +25,6 @@ export class MembersManagerComponent implements OnInit {
 
   ngOnInit(): void {
     this.usersService.users$.subscribe((users: User[]) => {
-      console.log(users);
-      
       this.users = this.usersService.getAllUser();
     });
     this.authService.getUser().subscribe(

@@ -24,6 +24,12 @@ export class UsersService {
     return this.usersSubject.getValue();
   }
 
+  addUser(user: User): void {
+    const users = this.usersSubject.getValue();
+    users.push(user);
+    this.usersSubject.next(users);
+  }
+
   loadUsers(): void {
     this.authService.getAllUsers().subscribe(
       res => {

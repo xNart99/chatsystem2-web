@@ -17,7 +17,6 @@ export class ModalNotificationCallComponent implements OnInit {
 
   applyVideoCall() {
     // document.getElementById('a')?.click();
-    this.activeModal.dismiss();
     const modal = this.modalController.open(
       ModalCallVideoComponent,
         {
@@ -26,7 +25,7 @@ export class ModalNotificationCallComponent implements OnInit {
         }
       );
       modal.componentInstance.channel = this.channel;
-      // modal. result.then(() => { console.log('When user closes'); }, () => {console.log('click outside');});
+      modal. result.then(() => { console.log('When user closes'); }, () => {console.log('click outside');});
   }
   
 

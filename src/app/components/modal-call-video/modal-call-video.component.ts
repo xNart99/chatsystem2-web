@@ -15,7 +15,7 @@ export class ModalCallVideoComponent implements OnInit, OnDestroy {
   end$ = new Subject();
   localStream!: MediaStream;
   remoteStreams: MediaStream[] = []; 
-  name: string = 'logan';
+  name!: string;
   remoteNames: string[] = [];
   myPeer!: IPeerJs;
   a: any;
@@ -29,7 +29,7 @@ export class ModalCallVideoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log(this.channel);
-    this.name = this.storageService.get('username')
+    this.name = this.storageService.get('username');
     this.socketService.joinRoomMetting(this.name,this.channel.id, this.channel.name);
     this.initVideo();
     // const call = this.myPeer.call(this.name, this.localStream);

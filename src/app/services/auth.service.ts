@@ -13,13 +13,22 @@ export class AuthService {
     private storage: StorageService,
     private http: HttpService
   ) {
+   this.loadUsers();
+  }
+
+  loadUsers(): void {
     this.getAllUsers().subscribe(
       res => {
         this.usersSub.next(res);
       },error => {
-
       }
     )
+  }
+
+  addUser(user: User): void {
+    const users = this.usersSub.getValue();
+    users.push(user);
+    this.usersSub.next(users);
   }
 
   register(username: string, password: string, email: string, role: string): Observable<any> {

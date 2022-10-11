@@ -66,6 +66,9 @@ export class CreateAddMemberComponent implements OnInit {
     const { username, password, email, role } = this.registerForm.value;
     this.authService.register(username, password, email, role).subscribe(
       res => {
+        // console.log(res);
+        // this.authService.loadUsers();
+        this.authService.addUser(res);
         this.registerForm.reset();
         this.registerForm.controls['role'].setValue('member');
         this.message.text = 'Registration successful';
